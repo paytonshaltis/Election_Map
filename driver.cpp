@@ -6,6 +6,74 @@
 
 using namespace std;
 
+//accepts a string and returns the uppercase version of the word
+string toUpper(string word) {
+    
+    int wordSize = word.size();                 //size of the word passed to function
+    string finalWord = "";                      //the lowercase word that will be returned
+    
+    //for each letter, if it is an uppercase letter, it becomes lowercase, otherwise it remains the same
+    for(int i = 0; i < wordSize; i++) {
+        if(word.at(i) == 'a')
+            finalWord += "A";
+        else if(word.at(i) == 'b')
+            finalWord += "B";
+        else if(word.at(i) == 'c')
+            finalWord += "C";
+        else if(word.at(i) == 'd')
+            finalWord += "D";
+        else if(word.at(i) == 'e')
+            finalWord += "E";
+        else if(word.at(i) == 'f')
+            finalWord += "F";
+        else if(word.at(i) == 'g')
+            finalWord += "G";
+        else if(word.at(i) == 'h')
+            finalWord += "H";
+        else if(word.at(i) == 'i')
+            finalWord += "I";
+        else if(word.at(i) == 'j')
+            finalWord += "J";
+        else if(word.at(i) == 'k')
+            finalWord += "K";
+        else if(word.at(i) == 'l')
+            finalWord += "L";
+        else if(word.at(i) == 'm')
+            finalWord += "M";
+        else if(word.at(i) == 'n')
+            finalWord += "N";
+        else if(word.at(i) == 'o')
+            finalWord += "O";
+        else if(word.at(i) == 'p')
+            finalWord += "P";
+        else if(word.at(i) == 'q')
+            finalWord += "Q";
+        else if(word.at(i) == 'r')
+            finalWord += "R";
+        else if(word.at(i) == 's')
+            finalWord += "S";
+        else if(word.at(i) == 't')
+            finalWord += "T";
+        else if(word.at(i) == 'u')
+            finalWord += "U";
+        else if(word.at(i) == 'v')
+            finalWord += "V";
+        else if(word.at(i) == 'w')
+            finalWord += "W";
+        else if(word.at(i) == 'x')
+            finalWord += "X";
+        else if(word.at(i) == 'y')
+            finalWord += "Y";
+        else if(word.at(i) == 'z')
+            finalWord += "Z";
+        else
+            finalWord += word.at(i);
+    }
+
+    //returns the final lowercase version of the word
+    return finalWord;
+}
+
 //returns a vector with all of the 51 states in alphabetical order
 vector<State> stateVector() {
     
@@ -121,33 +189,122 @@ vector<State> stateVector() {
     return finalVector;
 }
 
+//when "states.txt" cannot be found, this function is called to create the proper default file
+void makeStatestxt() {
+    
+    //output file stream object used for this write
+    ofstream OFS;
+
+    //creates the file that we have confirmed does not exists
+    OFS.open("resources/states.txt");
+
+    //writes this default text as backup in case the file is lost
+    OFS << "Republican:" << endl;
+    OFS << endl;
+    OFS << "Democrat:" << endl;
+    OFS << endl;
+    OFS << "Remaining:" << endl;
+    OFS << "Alabama" << endl;
+    OFS << "Alaska" << endl;
+    OFS << "Arizona" << endl;
+    OFS << "Arkansas" << endl;
+    OFS << "California" << endl;
+    OFS << "Colorado" << endl;
+    OFS << "Connecticut" << endl;
+    OFS << "Delaware" << endl;
+    OFS << "District_Of_Columbia" << endl;
+    OFS << "Florida" << endl;
+    OFS << "Georgia" << endl;
+    OFS << "Hawaii" << endl;
+    OFS << "Idaho" << endl;
+    OFS << "Illinois" << endl;
+    OFS << "Indiana" << endl;
+    OFS << "Iowa" << endl;
+    OFS << "Kansas" << endl;
+    OFS << "Kentucky" << endl;
+    OFS << "Louisiana" << endl;
+    OFS << "Maine" << endl;
+    OFS << "Maryland" << endl;
+    OFS << "Massachusetts" << endl;
+    OFS << "Michigan" << endl;
+    OFS << "Minnesota" << endl;
+    OFS << "Mississippi" << endl;
+    OFS << "Missouri" << endl;
+    OFS << "Montana" << endl;
+    OFS << "Nebraska" << endl;
+    OFS << "Nevada" << endl;
+    OFS << "New_Hampshire" << endl;
+    OFS << "New_Jersey" << endl;
+    OFS << "New_Mexico" << endl;
+    OFS << "New_York" << endl;
+    OFS << "North_Carolina" << endl;
+    OFS << "North_Dakota" << endl;
+    OFS << "Ohio" << endl;
+    OFS << "Oklahoma" << endl;
+    OFS << "Oregon" << endl;
+    OFS << "Pennsylvania" << endl;
+    OFS << "Rhode_Island" << endl;
+    OFS << "South_Carolina" << endl;
+    OFS << "South_Dakota" << endl;
+    OFS << "Tennessee" << endl;
+    OFS << "Texas" << endl;
+    OFS << "Utah" << endl;
+    OFS << "Vermont" << endl;
+    OFS << "Virginia" << endl;
+    OFS << "Washington" << endl;
+    OFS << "West_Virginia" << endl;
+    OFS << "Wisconsin" << endl;
+    OFS << "Wyoming" << endl;
+    
+    //closes the file
+    OFS.close();
+}
+
 //tests to see if the "states.txt" file is in the "resources" directory, otherwise it tries to make one.
 bool checkStatestxt() {
+    
+    //output file stream and input file stream used to find files
     ofstream OFS;
     ifstream IFS;
 
+    //tries to open the "resources/states.txt" file with the input stream
     IFS.open("resources/states.txt");
+
+    //if it fails, it means that it does not exist.
     if(!IFS.is_open()) {
         cout << "\"states.txt\" file not found. Creating one now..." << endl;
-        OFS.open("resources/states.txt");
-        if(!OFS.is_open()) {
+        
+        //calls the makeStatestxt() function that creates the backup in "resources/" directory
+        makeStatestxt();
+        
+        //tries to open the file once again with an input stream
+        IFS.open("resources/states.txt");
+
+        //if it still does not open, some error has occurred, likely a missing directory
+        if(!IFS.is_open()) {
             cout << "\"resources\" directory is missing. Unable to create file." << endl;
             return false;
         }
+        
+        //otherwise the backup file has been created successfully
         else {
             cout << "\"states.txt\" was successfully created!" << endl;
+            IFS.close();
             return true;
         }
     }
+    
+    //if the file already exists, then we notify the user that it has been found
     else {
         cout << "\"states.txt\" file found!" << endl;
+        
+        //since we successfully opened it, we should close it now
+        IFS.close();
         return true;
     }
 }
 
 int main() {
-
-    checkStatestxt();
 
     vector<State> Country = stateVector();
     int total = 0;
@@ -155,6 +312,66 @@ int main() {
         total = total + Country.at(i).getElectorals();
     }
     cout << total << endl;
+
+
+    //this will become its own function
+    
+    //the input file stream for this function
+    ifstream statesFile;
+    //current word stored in the stream
+    string currentWord;
+
+    //these will be the parameters that are sent, passed by reference
+    vector<string> republicanStates;
+    vector<string> democratStates;
+    vector<string> remainingStates;
+    
+    //if the "states.txt" file exists or has been created...
+    if(checkStatestxt()) {
+        
+        //open the file using the input stream
+        statesFile.open("resources/states.txt");
+
+            while(!statesFile.eof() && toUpper(currentWord) != "REPUBLICAN:") {
+                statesFile >> currentWord;
+            }
+            statesFile >> currentWord;
+            while(!statesFile.eof() && toUpper(currentWord) != "DEMOCRAT:") {
+                
+                if(currentWord != toUpper("DEMOCRAT:"))
+                    republicanStates.push_back(currentWord);
+                statesFile >> currentWord;
+            }
+            statesFile >> currentWord;
+            while(!statesFile.eof() && toUpper(currentWord) != "REMAINING:") {
+
+                if(currentWord != toUpper("REMAINING:"))
+                    democratStates.push_back(currentWord);
+                statesFile >> currentWord;
+            }
+            statesFile >> currentWord;
+            while(!statesFile.eof()) {
+                
+                remainingStates.push_back(currentWord);
+                statesFile >> currentWord;
+            }
+    }
+
+    cout << "These are the Republican states:" << endl;
+    for(int i = 0; !republicanStates.empty() && i < republicanStates.size(); i++) {
+        cout << republicanStates.at(i) << endl;
+    }
+    cout << endl << "These are the Democratic states:" << endl;
+    for(int i = 0; !democratStates.empty() && i < democratStates.size(); i++) {
+        cout << democratStates.at(i) << endl;
+    }
+    cout << endl << "These are the remaining states:" << endl;
+    for(int i = 0; !remainingStates.empty() && i < remainingStates.size(); i++) {
+        cout << remainingStates.at(i) << endl;
+    }
+
+    cout << republicanStates.size() << democratStates.size() << remainingStates.size() << endl;
+
 
     return 0;
 }
