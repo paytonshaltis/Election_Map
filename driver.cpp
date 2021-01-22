@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "State.h"
 
@@ -120,8 +121,33 @@ vector<State> stateVector() {
     return finalVector;
 }
 
+//tests to see if the "states.txt" file is in the "resources" directory, otherwise it tries to make one.
+bool checkStatestxt() {
+    ofstream OFS;
+    ifstream IFS;
+
+    IFS.open("resources/states.txt");
+    if(!IFS.is_open()) {
+        cout << "\"states.txt\" file not found. Creating one now..." << endl;
+        OFS.open("resources/states.txt");
+        if(!OFS.is_open()) {
+            cout << "\"resources\" directory is missing. Unable to create file." << endl;
+            return false;
+        }
+        else {
+            cout << "\"states.txt\" was successfully created!" << endl;
+            return true;
+        }
+    }
+    else {
+        cout << "\"states.txt\" file found!" << endl;
+        return true;
+    }
+}
 
 int main() {
+
+    checkStatestxt();
 
     vector<State> Country = stateVector();
     int total = 0;
