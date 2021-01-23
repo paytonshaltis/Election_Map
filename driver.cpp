@@ -304,27 +304,13 @@ bool checkStatestxt() {
     }
 }
 
-int main() {
+//modifies references to three vectors to add the proper strings to each
+void statesFromFile(vector<string> &republicanStates, vector<string> &democratStates, vector<string> &remainingStates) {
 
-    vector<State> Country = stateVector();
-    int total = 0;
-    for(int i = 0; i < 51; i++) {
-        total = total + Country.at(i).getElectorals();
-    }
-    cout << total << endl;
-
-
-    //this will become its own function
-    
     //the input file stream for this function
     ifstream statesFile;
     //current word stored in the stream
     string currentWord;
-
-    //these will be the parameters that are sent, passed by reference
-    vector<string> republicanStates;
-    vector<string> democratStates;
-    vector<string> remainingStates;
     
     //if the "states.txt" file exists or has been created...
     if(checkStatestxt()) {
@@ -332,31 +318,78 @@ int main() {
         //open the file using the input stream
         statesFile.open("resources/states.txt");
 
-            while(!statesFile.eof() && toUpper(currentWord) != "REPUBLICAN:") {
-                statesFile >> currentWord;
-            }
+        while(!statesFile.eof() && toUpper(currentWord) != "REPUBLICAN:") {
             statesFile >> currentWord;
-            while(!statesFile.eof() && toUpper(currentWord) != "DEMOCRAT:") {
-                
-                if(currentWord != toUpper("DEMOCRAT:"))
-                    republicanStates.push_back(currentWord);
-                statesFile >> currentWord;
-            }
+        }
+        statesFile >> currentWord;
+        while(!statesFile.eof() && toUpper(currentWord) != "DEMOCRAT:") {
+            
+            if(currentWord != toUpper("DEMOCRAT:"))
+                republicanStates.push_back(currentWord);
             statesFile >> currentWord;
-            while(!statesFile.eof() && toUpper(currentWord) != "REMAINING:") {
+        }
+        statesFile >> currentWord;
+        while(!statesFile.eof() && toUpper(currentWord) != "REMAINING:") {
 
-                if(currentWord != toUpper("REMAINING:"))
-                    democratStates.push_back(currentWord);
-                statesFile >> currentWord;
-            }
+            if(currentWord != toUpper("REMAINING:"))
+                democratStates.push_back(currentWord);
             statesFile >> currentWord;
-            while(!statesFile.eof()) {
-                
-                remainingStates.push_back(currentWord);
-                statesFile >> currentWord;
+        }
+        statesFile >> currentWord;
+        while(!statesFile.eof()) {
+            
+            remainingStates.push_back(currentWord);
+            statesFile >> currentWord;
+        }
+    }
+}
+
+//returns a vector of states according to a vector of strings containing state names
+vector<State> stringToState(vector<string> statesAsStrings, vector<State> allStates) {
+    
+    //final vector that will end up being returned
+    vector<State> finalVector;
+
+    //for all of the strings in the statesAsStrings vector...
+    for(int i = 0; !statesAsStrings.empty() && i < statesAsStrings.size(); i++) {
+        //...we have to find the matching state by name...
+        for(int j = 0; !allStates.empty() && j < allStates.size(); j++) {
+            //...case insensitive, of course...
+            if(toUpper(statesAsStrings.at(i)) == toUpper(allStates.at(j).getName())) {
+                //...then we add that state to the finalVector...
+                finalVector.push_back(allStates.at(j));
+                //...then remove the state from allStates, making the next iteration quicker
+                allStates.erase(allStates.begin() + j);
             }
+        }
     }
 
+    //final vector is returned
+    return finalVector;
+}
+
+int main() {
+
+    //creates a vector of all 51 states called 'Country'
+    vector<State> Country = stateVector();
+    
+    //calculates and displays the total number of electoral votes across all 51 states
+    int total = 0;
+    for(int i = 0; i < 51; i++) {
+        total = total + Country.at(i).getElectorals();
+    }
+    cout << total << endl;
+
+    //vectors will store the strings from the input file
+    vector<string> republicanStates;
+    vector<string> democratStates;
+    vector<string> remainingStates;
+
+    //fills the vectors from above with their strings
+    statesFromFile(republicanStates, democratStates, remainingStates);
+
+    /*
+    //displays the contents of each of the vectors from above
     cout << "These are the Republican states:" << endl;
     for(int i = 0; !republicanStates.empty() && i < republicanStates.size(); i++) {
         cout << republicanStates.at(i) << endl;
@@ -369,9 +402,36 @@ int main() {
     for(int i = 0; !remainingStates.empty() && i < remainingStates.size(); i++) {
         cout << remainingStates.at(i) << endl;
     }
+    */
 
-    cout << republicanStates.size() << democratStates.size() << remainingStates.size() << endl;
+    //displays the number of states within each party and remaining states
+    cout << republicanStates.size() << " " << democratStates.size() << " " << remainingStates.size() << endl;
+    
+    //converts the republican states to the proper vector of states
+    vector<State> republican = stringToState(republicanStates, Country);
+    int count1 = 0;
+    for(int i = 0; i < republican.size(); i++) {
+        cout << republican.at(i).getName() << " " << republican.at(i).getElectorals() << " " << republican.at(i).getUntraditional() << endl;
+        count1 += republican.at(i).getElectorals();
+    }
+    
+    //converts the democrat states to the proper vector of states
+    vector<State> democrat = stringToState(democratStates, Country);
+    int count2 = 0;
+    for(int i = 0; i < democrat.size(); i++) {
+        cout << democrat.at(i).getName() << " " << democrat.at(i).getElectorals() << " " << democrat.at(i).getUntraditional() << endl;
+        count2 += democrat.at(i).getElectorals();
+    }
 
+    //converts the remaining states to the proper vector of states
+    vector<State> remaining = stringToState(remainingStates, Country);
+    int count3 = 0;
+    for(int i = 0; i < remaining.size(); i++) {
+        cout << remaining.at(i).getName() << " " << remaining.at(i).getElectorals() << " " << remaining.at(i).getUntraditional() << endl;
+        count3 += remaining.at(i).getElectorals();
+    }
+
+    cout << count1 << " " << count2 << " " << count3 << endl;
 
     return 0;
 }
