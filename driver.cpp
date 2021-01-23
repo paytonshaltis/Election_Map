@@ -223,7 +223,7 @@ void makeStatestxt() {
     OFS << "Kansas" << endl;
     OFS << "Kentucky" << endl;
     OFS << "Louisiana" << endl;
-    OFS << "Maine" << endl;
+    OFS << "Maine 4" << endl;
     OFS << "Maryland" << endl;
     OFS << "Massachusetts" << endl;
     OFS << "Michigan" << endl;
@@ -231,7 +231,7 @@ void makeStatestxt() {
     OFS << "Mississippi" << endl;
     OFS << "Missouri" << endl;
     OFS << "Montana" << endl;
-    OFS << "Nebraska" << endl;
+    OFS << "Nebraska 5" << endl;
     OFS << "Nevada" << endl;
     OFS << "New_Hampshire" << endl;
     OFS << "New_Jersey" << endl;
