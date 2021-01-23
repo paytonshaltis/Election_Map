@@ -104,7 +104,7 @@ vector<State> stateVector() {
     State Maryland = State("Maryland", 10, false);
     State Massachusetts = State("Massachusetts", 11, false);
     State Michigan = State("Michigan", 16, false);
-    State Minesota = State("Minesota", 10, false);
+    State Minnesota = State("Minnesota", 10, false);
     State Mississippi = State("Mississippi", 6, false);
     State Missouri = State("Missouri", 10, false);
     State Montana = State("Montana", 3, false) ;
@@ -157,7 +157,7 @@ vector<State> stateVector() {
     finalVector.push_back(Maryland);
     finalVector.push_back(Massachusetts);
     finalVector.push_back(Michigan);
-    finalVector.push_back(Minesota);
+    finalVector.push_back(Minnesota);
     finalVector.push_back(Mississippi);
     finalVector.push_back(Missouri);
     finalVector.push_back(Montana);
@@ -294,9 +294,8 @@ bool checkStatestxt() {
         }
     }
     
-    //if the file already exists, then we notify the user that it has been found
+    //if the file already exists, then we can close the file
     else {
-        cout << "\"states.txt\" file found!" << endl;
         
         //since we successfully opened it, we should close it now
         IFS.close();
@@ -360,6 +359,14 @@ vector<State> stringToState(vector<string> statesAsStrings, vector<State> allSta
                 finalVector.push_back(allStates.at(j));
                 //...then remove the state from allStates, making the next iteration quicker
                 allStates.erase(allStates.begin() + j);
+                //if the state entered was an untraditional one, we must handle it.
+                if(finalVector.back().getUntraditional()) {
+                    //sets the electorals of this state to the integer following it
+                    int temp = stoi(statesAsStrings.at(i+1));
+                    finalVector.back().setElectorals(temp);
+                    //increment to the next word in the vector of strings
+                    i++;
+                }
             }
         }
     }
@@ -368,70 +375,47 @@ vector<State> stringToState(vector<string> statesAsStrings, vector<State> allSta
     return finalVector;
 }
 
+//returns the total number of electoral votes a vector of states currently has
+int totalElectorals(vector<State> states) {
+    
+    //total to be returned
+    int total = 0;
+
+    //simple loop to total up all of the electorals
+    for(int i = 0; i < states.size(); i++) {
+        total += states.at(i).getElectorals();
+    }
+
+    //returns the total electorals
+    return total;
+}
+
 int main() {
 
     //creates a vector of all 51 states called 'Country'
     vector<State> Country = stateVector();
-    
-    //calculates and displays the total number of electoral votes across all 51 states
-    int total = 0;
-    for(int i = 0; i < 51; i++) {
-        total = total + Country.at(i).getElectorals();
-    }
-    cout << total << endl;
 
     //vectors will store the strings from the input file
     vector<string> republicanStates;
     vector<string> democratStates;
     vector<string> remainingStates;
-
-    //fills the vectors from above with their strings
     statesFromFile(republicanStates, democratStates, remainingStates);
 
-    /*
-    //displays the contents of each of the vectors from above
-    cout << "These are the Republican states:" << endl;
-    for(int i = 0; !republicanStates.empty() && i < republicanStates.size(); i++) {
-        cout << republicanStates.at(i) << endl;
-    }
-    cout << endl << "These are the Democratic states:" << endl;
-    for(int i = 0; !democratStates.empty() && i < democratStates.size(); i++) {
-        cout << democratStates.at(i) << endl;
-    }
-    cout << endl << "These are the remaining states:" << endl;
-    for(int i = 0; !remainingStates.empty() && i < remainingStates.size(); i++) {
-        cout << remainingStates.at(i) << endl;
-    }
-    */
-
-    //displays the number of states within each party and remaining states
-    cout << republicanStates.size() << " " << democratStates.size() << " " << remainingStates.size() << endl;
-    
-    //converts the republican states to the proper vector of states
+    //converts the vectors of strings into vectors of states
     vector<State> republican = stringToState(republicanStates, Country);
-    int count1 = 0;
-    for(int i = 0; i < republican.size(); i++) {
-        cout << republican.at(i).getName() << " " << republican.at(i).getElectorals() << " " << republican.at(i).getUntraditional() << endl;
-        count1 += republican.at(i).getElectorals();
-    }
-    
-    //converts the democrat states to the proper vector of states
     vector<State> democrat = stringToState(democratStates, Country);
-    int count2 = 0;
-    for(int i = 0; i < democrat.size(); i++) {
-        cout << democrat.at(i).getName() << " " << democrat.at(i).getElectorals() << " " << democrat.at(i).getUntraditional() << endl;
-        count2 += democrat.at(i).getElectorals();
-    }
-
-    //converts the remaining states to the proper vector of states
     vector<State> remaining = stringToState(remainingStates, Country);
-    int count3 = 0;
-    for(int i = 0; i < remaining.size(); i++) {
-        cout << remaining.at(i).getName() << " " << remaining.at(i).getElectorals() << " " << remaining.at(i).getUntraditional() << endl;
-        count3 += remaining.at(i).getElectorals();
-    }
 
-    cout << count1 << " " << count2 << " " << count3 << endl;
+    //outputs the number of states in each category (won't add up to 51 because of untraditionals)
+    cout << endl << "Republican States: " << republican.size() << endl;
+    cout << "Democratic States: " << democrat.size() << endl;
+    cout << "Remaining States: " << remaining.size() << endl << endl; 
+    
+    //outputs the total number of electoral votes each vector has
+    cout << "Republican Electoral Votes: " << totalElectorals(republican) << endl;
+    cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
+    cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
+
 
     return 0;
 }
