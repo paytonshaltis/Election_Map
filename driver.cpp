@@ -3,6 +3,9 @@
 #include <fstream>
 #include <vector>
 #include "State.h"
+#include <cmath>
+#include <time.h>
+#include <ctime>
 
 using namespace std;
 
@@ -390,6 +393,72 @@ int totalElectorals(vector<State> states) {
     return total;
 }
 
+//returns the number of subsets of the remaining states that exist that allow a party to win; fills subsetsVector with all subsets
+//currently takes about 0:30 for 22 remaining, 1:00 for 23 remaining, etc. This means 30 states is 2:10:00!!
+int subsetsOfRemaining(vector<State> party, vector<State> remaining, vector< vector<State> > &subsetsVector) {
+    //clears the subsetsVector to prevent issues with push_back
+    vector< vector<State> > tempVector;
+    subsetsVector = tempVector;
+    
+    //gets the remaining number of electoral votes needed for the party to reach 270
+    int needed = 270 - totalElectorals(party);
+
+    //if needed is negative or zero, the party has already won
+    if(needed <= 0) {
+        cout << "It looks like this party already has enough electoral votes to win!" << endl;
+        return 0;
+    }
+
+    //counter that returns the number of successful subsets
+    int counter = 0;
+
+    //loop goes from 0 to 2^(# of remaining states). This gives all subsets (bit combinations)
+    for(int i = 0; !remaining.empty() && i < pow(2, remaining.size()); i++) {
+        
+        //this loop assigns the thisSubset boolean values to each state. It represents a single subset
+        for(int j = 0; !remaining.empty() && j < remaining.size(); j++) {
+            int thisBit = (i>>j) & (1);
+            remaining.at(j).setThisSubset(thisBit);
+        }
+        //creates a vector for this subset
+        vector<State> subset;
+        //does the calculations for one individual subset
+        for(int i = 0; !remaining.empty() && i < remaining.size(); i++) {
+            //for each state, if it is in this subset... 
+            if(remaining.at(i).getThisSubset()) {
+                //...pushes this state back in the current subset vector
+                subset.push_back(remaining.at(i));
+            }
+        }   
+        //if the totalElectorals of this subset is at least the needed value...
+        if(totalElectorals(subset) >= needed) {
+            //puts this subset vector into subsetsVector
+            subsetsVector.push_back(subset);
+            counter++;
+        }
+    }
+    return counter;
+}
+
+//displays all of the possible winning subsets of remaining states
+void displayWinningSubsets(vector<State> party, vector<State> remaining, vector< vector<State> > &subsetsVector) {
+    //clears the subsetsVector to prevent issues with push_back
+    vector< vector<State> > tempVector;
+    subsetsVector = tempVector;
+    
+    //calculates the number of winning subsets, and modifies the subsetsVector accordingly
+    subsetsOfRemaining(party, remaining, subsetsVector);
+
+    //displays all of the subsets of states created from the remaining states
+    for(int i = 0; !subsetsVector.empty() && i < subsetsVector.size(); i++) {
+        cout << "Subset #" << i + 1 << ": ";
+        for(int j = 0; !subsetsVector.at(i).empty() && j < subsetsVector.at(i).size(); j++) {
+            cout << subsetsVector.at(i).at(j).getName() << " ";
+        }
+        cout << endl;
+    }
+}
+
 int main() {
 
     //creates a vector of all 51 states called 'Country'
@@ -416,6 +485,14 @@ int main() {
     cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
     cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
 
-
+    //displays the number of subsets of the remaining states can be created
+    vector< vector<State> > subsetsVectorDemocrat;
+    vector< vector<State> > subsetsVectorRepublican;
+    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(democrat, remaining, subsetsVectorDemocrat) << " subsets that can win the election for democrats." << endl;
+    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(republican, remaining, subsetsVectorRepublican) << " subsets that can win the election for republicans." << endl << endl;
+    
+    //displays all of the subsets that win the election
+    displayWinningSubsets(republican, remaining, subsetsVectorDemocrat);
+    displayWinningSubsets(democrat, remaining, subsetsVectorRepublican);
     return 0;
 }

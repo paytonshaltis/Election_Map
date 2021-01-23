@@ -9,6 +9,7 @@ State::State() {
     this->name = "no_name";
     this->electorals = 0;
     this->untraditional = false;
+    this->thisSubset = false;
     //cout << "State created with default constructor" << endl;
 }
 
@@ -17,6 +18,7 @@ State::State(string name, int electorals, bool untraditional) {
     this->name = name;
     this->electorals = electorals;
     this->untraditional = untraditional;
+    this->thisSubset = false;
     //cout << "State created with paramaterized constructor." << endl;
 }
 
@@ -40,6 +42,11 @@ void State::setUntraditional(bool untraditional) {
     this->untraditional = untraditional;
 }
 
+//sets if the state is being included in the subset
+void State::setThisSubset(bool thisSubset) {
+    this->thisSubset = thisSubset;
+}
+
 //returns the name of the state
 string State::getName() {
     return name;
@@ -53,4 +60,9 @@ int State::getElectorals() {
 //returns if the state has an untraditional vote distribution system
 bool State::getUntraditional() {
     return untraditional;
+}
+
+//returns if the state is being included in the subset
+bool State::getThisSubset() {
+    return thisSubset;
 }
