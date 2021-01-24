@@ -459,8 +459,33 @@ void displayWinningSubsets(vector<State> party, vector<State> remaining, vector<
     }
 }
 
-int main() {
+//finds all of the subsets that contain the lowest number of states to win, returns them in a vector of vector<State>s
+vector< vector<State> > allMinSubsets(vector< vector<State> > subsetsVector) {
+    
+    //finds the smallest subset in the vector, stores in low
+    int low = subsetsVector.at(0).size();
+    
+    for(int i = 1; i < subsetsVector.size(); i++) {
+        if(subsetsVector.at(i).size() < low) {
+            low = subsetsVector.at(i).size();
+        }
+    }
 
+    //adds all vectors of size low to the returnVector
+    vector< vector<State> > returnVector;
+
+    for(int i = 0; i < subsetsVector.size(); i++) {
+        if(subsetsVector.at(i).size() == low) {
+            returnVector.push_back(subsetsVector.at(i));
+        }
+    }
+
+    //returns the vector containing all vector<State> with the smallest size
+    return returnVector;
+}
+
+int main() {
+    
     //creates a vector of all 51 states called 'Country'
     vector<State> Country = stateVector();
 
@@ -476,7 +501,7 @@ int main() {
     vector<State> remaining = stringToState(remainingStates, Country);
 
     //outputs the number of states in each category (won't add up to 51 because of untraditionals)
-    cout << endl << "Republican States: " << republican.size() << endl;
+   cout << endl << "Republican States: " << republican.size() << endl;
     cout << "Democratic States: " << democrat.size() << endl;
     cout << "Remaining States: " << remaining.size() << endl << endl; 
     
@@ -484,7 +509,7 @@ int main() {
     cout << "Republican Electoral Votes: " << totalElectorals(republican) << endl;
     cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
     cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
-
+    
     //displays the number of subsets of the remaining states can be created
     vector< vector<State> > subsetsVectorDemocrat;
     vector< vector<State> > subsetsVectorRepublican;
@@ -494,5 +519,35 @@ int main() {
     //displays all of the subsets that win the election
     displayWinningSubsets(republican, remaining, subsetsVectorDemocrat);
     displayWinningSubsets(democrat, remaining, subsetsVectorRepublican);
+    
+
+    //calculates and displays the number of minimum states each needs to win, and what the possibilities are for each of them
+    vector< vector<State> > republicanMin = allMinSubsets(subsetsVectorRepublican);
+    vector< vector<State> > democratMin = allMinSubsets(subsetsVectorDemocrat);
+
+    cout << "For Republicans, the minimum number of states that can win them the election is "  << republicanMin.at(0).size() << endl;
+    cout << "They have " << republicanMin.size() << " subsets that contain " << republicanMin.at(0).size() << " states." << endl << endl;
+
+    for(int i = 0; i < republicanMin.size(); i++) {
+        cout << "Subset #" << i+1 << ": ";
+        for(int j = 0; j < republicanMin.at(i).size(); j++) {
+            cout << republicanMin.at(i).at(j).getName() << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "For Democrats, the minimum number of states that can win them the election is "  << democratMin.at(0).size() << endl;
+    cout << "They have " << democratMin.size() << " subsets that contain " << democratMin.at(0).size() << " states." << endl << endl;
+
+    for(int i = 0; i < democratMin.size(); i++) {
+        cout << "Subset #" << i+1 << ": ";
+        for(int j = 0; j < democratMin.at(i).size(); j++) {
+            cout << democratMin.at(i).at(j).getName() << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
     return 0;
 }
