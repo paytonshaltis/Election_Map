@@ -13,11 +13,15 @@ Mississippi
 Missouri
 Montana
 Nebraska 4
+North_Dakota
+Oklahoma
 South_Carolina
 South_Dakota
 Tennessee
 Utah
 West_Virginia
+Wyoming
+
 
 
 
@@ -26,19 +30,22 @@ Democrat:
 California
 Colorado
 Connecticut
-North_Dakota
-Oklahoma
-Wyoming
 Delaware
 District_Of_Columbia
 Hawaii
 Illinois
 Maine 3
+Maryland
+Massachusetts
 Nebraska 1
 New_Jersey
 New_Mexico
+New_York
 Oregon
-
+Rhode_Island
+Vermont
+Virginia
+Washington
 
 
 
@@ -51,7 +58,6 @@ Georgia
 Iowa
 Michigan
 Minnesota
-New_York
 Nevada
 New_Hampshire
 North_Carolina
@@ -59,10 +65,3 @@ Ohio
 Pennsylvania
 Texas
 Wisconsin
-Virginia
-Washington
-Maryland
-Rhode_Island
-Vermont
-Massachusetts
-
