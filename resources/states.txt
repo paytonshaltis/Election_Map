@@ -14,8 +14,6 @@ Missouri
 Montana
 Nebraska 4
 North_Dakota
-Oklahoma
-South_Carolina
 South_Dakota
 Tennessee
 Utah
@@ -43,8 +41,6 @@ New_Mexico
 New_York
 Oregon
 Rhode_Island
-Vermont
-Virginia
 Washington
 
 
@@ -58,10 +54,14 @@ Georgia
 Iowa
 Michigan
 Minnesota
+Oklahoma
+South_Carolina
 Nevada
 New_Hampshire
 North_Carolina
 Ohio
 Pennsylvania
+Vermont
+Virginia
 Texas
 Wisconsin

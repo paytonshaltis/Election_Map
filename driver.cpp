@@ -501,7 +501,7 @@ int main() {
     vector<State> remaining = stringToState(remainingStates, Country);
 
     //outputs the number of states in each category (won't add up to 51 because of untraditionals)
-   cout << endl << "Republican States: " << republican.size() << endl;
+    cout << endl << "Republican States: " << republican.size() << endl;
     cout << "Democratic States: " << democrat.size() << endl;
     cout << "Remaining States: " << remaining.size() << endl << endl; 
     
@@ -513,14 +513,13 @@ int main() {
     //displays the number of subsets of the remaining states can be created
     vector< vector<State> > subsetsVectorDemocrat;
     vector< vector<State> > subsetsVectorRepublican;
-    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(democrat, remaining, subsetsVectorDemocrat) << " subsets that can win the election for democrats." << endl;
-    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(republican, remaining, subsetsVectorRepublican) << " subsets that can win the election for republicans." << endl << endl;
-    
+    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(democrat, remaining, subsetsVectorDemocrat) << " subsets that can win the election for Democrats." << endl;
+    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(republican, remaining, subsetsVectorRepublican) << " subsets that can win the election for Republicans." << endl << endl;
+    /*
     //displays all of the subsets that win the election
-    displayWinningSubsets(republican, remaining, subsetsVectorDemocrat);
-    displayWinningSubsets(democrat, remaining, subsetsVectorRepublican);
-    
-
+    displayWinningSubsets(republican, remaining, subsetsVectorRepublican);
+    displayWinningSubsets(democrat, remaining, subsetsVectorDemocrat);
+    */
     //calculates and displays the number of minimum states each needs to win, and what the possibilities are for each of them
     vector< vector<State> > republicanMin = allMinSubsets(subsetsVectorRepublican);
     vector< vector<State> > democratMin = allMinSubsets(subsetsVectorDemocrat);
