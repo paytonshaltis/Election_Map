@@ -3,59 +3,76 @@ Republican:
 Alabama
 Alaska
 Arkansas
+Florida
 Idaho
 Indiana
+Iowa
 Kansas
 Kentucky
 Louisiana
-Maine 1
+Maine_Congressional_2
 Mississippi
 Missouri
 Montana
+Nebraska_State
+Nebraska_Congressional_1
+Nebraska_Congressional_3
+North_Carolina
 North_Dakota
+Ohio
+Oklahoma
 South_Carolina
 South_Dakota
 Tennessee
+Texas
 Utah
 West_Virginia
 Wyoming
 
+
+
+
 Democrat:
 
+Arizona
 California
 Colorado
 Connecticut
 Delaware
 District_Of_Columbia
+Georgia
 Hawaii
 Illinois
-Maine 3
+Maine_State
+Main_Congressional_1
 Maryland
 Massachusetts
+Michigan
+Minnesota
+Nebraska_Congressional_2
+Nevada
+New_Hampshire
 New_Jersey
 New_Mexico
 New_York
 Oregon
+Pennsylvania
 Rhode_Island
 Vermont
 Virginia
 Washington
-Oklahoma
+Wisconsin
+
+
+
 
 Remaining:
 
-Arizona
-Florida
-Georgia
-Iowa
-Michigan
-Minnesota
-Nevada
-New_Hampshire
-North_Carolina
-Ohio
-Nebraska 5
-Pennsylvania
-Texas
-Wisconsin
+
+
+
+
+
+
+
 

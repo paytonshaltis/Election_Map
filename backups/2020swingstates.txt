@@ -8,11 +8,13 @@ Indiana
 Kansas
 Kentucky
 Louisiana
-Maine 1
+Maine_Congressional_2
 Mississippi
 Missouri
 Montana
-Nebraska 4
+Nebraska_State
+Nebraska_Congressional_1
+Nebraska_Congressional_3
 North_Dakota
 Oklahoma
 South_Carolina
@@ -34,10 +36,11 @@ Delaware
 District_Of_Columbia
 Hawaii
 Illinois
-Maine 3
+Maine_State
+Maine_Congressional_1
 Maryland
 Massachusetts
-Nebraska 1
+Nebraska_Congressional_2
 New_Jersey
 New_Mexico
 New_York

@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//DONE
 //accepts a string and returns the uppercase version of the word
 string toUpper(string word) {
     
@@ -77,66 +78,73 @@ string toUpper(string word) {
     return finalWord;
 }
 
-//returns a vector with all of the 51 states in alphabetical order
+//DONE
+//returns a vector with all of the states in alphabetical order.
+//composed of 50 states, 1 district, 5 congressionals for a total 'state' count of 56
 vector<State> stateVector() {
     
-    //vector to be returned with 51 states
+    //vector to be returned with 56 states
     vector<State> finalVector;
 
-    //creates 51 state objects, initialized with their name, electoral, and untraditional values
-    State Alabama = State("Alabama", 9, false);
-    State Alaska = State("Alaska", 3, false);
-    State Arizona = State("Arizona", 11, false);
-    State Arkansas = State("Arkansas", 6, false);
-    State California = State("California", 55, false);
-    State Colorado = State("Colorado", 9, false);
-    State Connecticut = State("Connecticut", 7, false);
-    State Delaware = State("Delaware", 3, false);
-    State District_Of_Columbia = State("District_Of_Columbia", 3, false);
-    State Florida = State("Florida", 29, false);
-    State Georgia = State("Georgia", 16, false);
-    State Hawaii = State("Hawaii", 4, false);
-    State Idaho = State("Idaho", 4, false);
-    State Illinois = State("Illinois", 20, false);
-    State Indiana = State("Indiana", 11, false);
-    State Iowa = State("Iowa", 6, false);
-    State Kansas = State("Kansas", 6, false);
-    State Kentucky = State("Kentucky", 8, false);
-    State Louisiana = State("Louisiana", 8, false);
-    State Maine = State("Maine", 4, true);
-    State Maryland = State("Maryland", 10, false);
-    State Massachusetts = State("Massachusetts", 11, false);
-    State Michigan = State("Michigan", 16, false);
-    State Minnesota = State("Minnesota", 10, false);
-    State Mississippi = State("Mississippi", 6, false);
-    State Missouri = State("Missouri", 10, false);
-    State Montana = State("Montana", 3, false) ;
-    State Nebraska = State("Nebraska", 5, true);
-    State Nevada = State("Nevada", 6, false);
-    State New_Hampshire = State("New_Hampshire", 4, false);
-    State New_Jersey = State("New_Jersey", 14, false);
-    State New_Mexico = State("New_Mexico", 5, false);
-    State New_York = State("New_York", 29, false);
-    State North_Carolina = State("North_Carolina", 15, false);
-    State North_Dakota = State("North_Dakota", 3, false);
-    State Ohio = State("Ohio", 18, false);
-    State Oklahoma = State("Oklahoma", 7, false);
-    State Oregon = State("Oregon", 7, false);
-    State Pennsylvania = State("Pennsylvania", 20, false);
-    State Rhode_Island = State("Rhode_Island", 4, false);
-    State South_Carolina = State("South_Carolina", 9, false);
-    State South_Dakota = State("South_Dakota", 3, false);
-    State Tennessee = State("Tennessee", 11, false);
-    State Texas = State("Texas", 38, false);
-    State Utah = State("Utah", 6, false);
-    State Vermont = State("Vermont", 3, false);
-    State Virginia = State("Virginia", 13, false);
-    State Washington = State("Washington", 12, false);
-    State West_Virginia = State("West_Virginia", 5, false);
-    State Wisconsin = State("Wisconsin", 10, false);
-    State Wyoming = State("Wyoming", 3, false);
+    //creates 56 state objects, initialized with their name and electoral values
+    State Alabama = State("Alabama", 9);
+    State Alaska = State("Alaska", 3);
+    State Arizona = State("Arizona", 11);
+    State Arkansas = State("Arkansas", 6);
+    State California = State("California", 55);
+    State Colorado = State("Colorado", 9);
+    State Connecticut = State("Connecticut", 7);
+    State Delaware = State("Delaware", 3);
+    State District_Of_Columbia = State("District_Of_Columbia", 3);
+    State Florida = State("Florida", 29);
+    State Georgia = State("Georgia", 16);
+    State Hawaii = State("Hawaii", 4);
+    State Idaho = State("Idaho", 4);
+    State Illinois = State("Illinois", 20);
+    State Indiana = State("Indiana", 11);
+    State Iowa = State("Iowa", 6);
+    State Kansas = State("Kansas", 6);
+    State Kentucky = State("Kentucky", 8);
+    State Louisiana = State("Louisiana", 8);
+    State Maine_State = State("Maine_State", 2);
+    State Maine_Congressional_1 = State("Maine_Congressional_1", 1);
+    State Maine_Congressional_2 = State("Maine_Congressional_2", 1);
+    State Maryland = State("Maryland", 10);
+    State Massachusetts = State("Massachusetts", 11);
+    State Michigan = State("Michigan", 16);
+    State Minnesota = State("Minnesota", 10);
+    State Mississippi = State("Mississippi", 6);
+    State Missouri = State("Missouri", 10);
+    State Montana = State("Montana", 3) ;
+    State Nebraska_State = State("Nebraska_State", 2);
+    State Nebraska_Congressional_1 = State("Nebraska_Congressional_1", 1);
+    State Nebraska_Congressional_2 = State("Nebraska_Congressional_2", 1);
+    State Nebraska_Congressional_3 = State("Nebraska_Congressional_3", 1);
+    State Nevada = State("Nevada", 6);
+    State New_Hampshire = State("New_Hampshire", 4);
+    State New_Jersey = State("New_Jersey", 14);
+    State New_Mexico = State("New_Mexico", 5);
+    State New_York = State("New_York", 29);
+    State North_Carolina = State("North_Carolina", 15);
+    State North_Dakota = State("North_Dakota", 3);
+    State Ohio = State("Ohio", 18);
+    State Oklahoma = State("Oklahoma", 7);
+    State Oregon = State("Oregon", 7);
+    State Pennsylvania = State("Pennsylvania", 20);
+    State Rhode_Island = State("Rhode_Island", 4);
+    State South_Carolina = State("South_Carolina", 9);
+    State South_Dakota = State("South_Dakota", 3);
+    State Tennessee = State("Tennessee", 11);
+    State Texas = State("Texas", 38);
+    State Utah = State("Utah", 6);
+    State Vermont = State("Vermont", 3);
+    State Virginia = State("Virginia", 13);
+    State Washington = State("Washington", 12);
+    State West_Virginia = State("West_Virginia", 5);
+    State Wisconsin = State("Wisconsin", 10);
+    State Wyoming = State("Wyoming", 3);
     
-    //insert each of the 51 states into the vector to be returned
+    //insert each of the 56 states into the vector to be returned
     finalVector.push_back(Alabama);
     finalVector.push_back(Alaska);
     finalVector.push_back(Arizona);
@@ -156,7 +164,9 @@ vector<State> stateVector() {
     finalVector.push_back(Kansas);
     finalVector.push_back(Kentucky);
     finalVector.push_back(Louisiana);
-    finalVector.push_back(Maine);
+    finalVector.push_back(Maine_State);
+    finalVector.push_back(Maine_Congressional_1);
+    finalVector.push_back(Maine_Congressional_2);
     finalVector.push_back(Maryland);
     finalVector.push_back(Massachusetts);
     finalVector.push_back(Michigan);
@@ -164,7 +174,10 @@ vector<State> stateVector() {
     finalVector.push_back(Mississippi);
     finalVector.push_back(Missouri);
     finalVector.push_back(Montana);
-    finalVector.push_back(Nebraska);
+    finalVector.push_back(Nebraska_State);
+    finalVector.push_back(Nebraska_Congressional_1);
+    finalVector.push_back(Nebraska_Congressional_2);
+    finalVector.push_back(Nebraska_Congressional_3);
     finalVector.push_back(Nevada);
     finalVector.push_back(New_Hampshire);
     finalVector.push_back(New_Jersey);
@@ -192,6 +205,7 @@ vector<State> stateVector() {
     return finalVector;
 }
 
+//DONE
 //when "states.txt" cannot be found, this function is called to create the proper default file
 void makeStatestxt() {
     
@@ -207,6 +221,7 @@ void makeStatestxt() {
     OFS << "Democrat:" << endl;
     OFS << endl;
     OFS << "Remaining:" << endl;
+    OFS << endl;
     OFS << "Alabama" << endl;
     OFS << "Alaska" << endl;
     OFS << "Arizona" << endl;
@@ -226,7 +241,9 @@ void makeStatestxt() {
     OFS << "Kansas" << endl;
     OFS << "Kentucky" << endl;
     OFS << "Louisiana" << endl;
-    OFS << "Maine 4" << endl;
+    OFS << "Maine_State" << endl;
+    OFS << "Maine_Congressional_1" << endl;
+    OFS << "Maine_Congressional_2" << endl;
     OFS << "Maryland" << endl;
     OFS << "Massachusetts" << endl;
     OFS << "Michigan" << endl;
@@ -234,7 +251,10 @@ void makeStatestxt() {
     OFS << "Mississippi" << endl;
     OFS << "Missouri" << endl;
     OFS << "Montana" << endl;
-    OFS << "Nebraska 5" << endl;
+    OFS << "Nebraska_State" << endl;
+    OFS << "Nebraska_Congressional_1" << endl;
+    OFS << "Nebraska_Congressional_2" << endl;
+    OFS << "Nebraska_Congressional_3" << endl;
     OFS << "Nevada" << endl;
     OFS << "New_Hampshire" << endl;
     OFS << "New_Jersey" << endl;
@@ -263,6 +283,7 @@ void makeStatestxt() {
     OFS.close();
 }
 
+//DONE
 //tests to see if the "states.txt" file is in the "resources" directory, otherwise it tries to make one.
 bool checkStatestxt() {
     
@@ -306,6 +327,7 @@ bool checkStatestxt() {
     }
 }
 
+//DONE
 //modifies references to three vectors to add the proper strings to each
 void statesFromFile(vector<string> &republicanStates, vector<string> &democratStates, vector<string> &remainingStates) {
 
@@ -346,6 +368,7 @@ void statesFromFile(vector<string> &republicanStates, vector<string> &democratSt
     }
 }
 
+//DONE
 //returns a vector of states according to a vector of strings containing state names
 vector<State> stringToState(vector<string> statesAsStrings, vector<State> allStates) {
     
@@ -362,14 +385,6 @@ vector<State> stringToState(vector<string> statesAsStrings, vector<State> allSta
                 finalVector.push_back(allStates.at(j));
                 //...then remove the state from allStates, making the next iteration quicker
                 allStates.erase(allStates.begin() + j);
-                //if the state entered was an untraditional one, we must handle it.
-                if(finalVector.back().getUntraditional()) {
-                    //sets the electorals of this state to the integer following it
-                    int temp = stoi(statesAsStrings.at(i+1));
-                    finalVector.back().setElectorals(temp);
-                    //increment to the next word in the vector of strings
-                    i++;
-                }
             }
         }
     }
@@ -378,6 +393,7 @@ vector<State> stringToState(vector<string> statesAsStrings, vector<State> allSta
     return finalVector;
 }
 
+//DONE
 //returns the total number of electoral votes a vector of states currently has
 int totalElectorals(vector<State> states) {
     
@@ -393,9 +409,11 @@ int totalElectorals(vector<State> states) {
     return total;
 }
 
+//DONE
 //returns the number of subsets of the remaining states that exist that allow a party to win; fills subsetsVector with all subsets
 //currently takes about 0:30 for 22 remaining, 1:00 for 23 remaining, etc. This means 30 states is 2:10:00!!
 int subsetsOfRemaining(vector<State> party, vector<State> remaining, vector< vector<State> > &subsetsVector) {
+    
     //clears the subsetsVector to prevent issues with push_back
     vector< vector<State> > tempVector;
     subsetsVector = tempVector;
@@ -405,7 +423,7 @@ int subsetsOfRemaining(vector<State> party, vector<State> remaining, vector< vec
 
     //if needed is negative or zero, the party has already won
     if(needed <= 0) {
-        cout << "It looks like this party already has enough electoral votes to win!" << endl;
+        cout << "It looks like this party already has enough electoral votes to win!" << endl << endl;
         return 0;
     }
 
@@ -420,35 +438,43 @@ int subsetsOfRemaining(vector<State> party, vector<State> remaining, vector< vec
             int thisBit = (i>>j) & (1);
             remaining.at(j).setThisSubset(thisBit);
         }
+
         //creates a vector for this subset
         vector<State> subset;
+
         //does the calculations for one individual subset
         for(int i = 0; !remaining.empty() && i < remaining.size(); i++) {
-            //for each state, if it is in this subset... 
+            
+            //for each state, if it should be in this subset... 
             if(remaining.at(i).getThisSubset()) {
+                
                 //...pushes this state back in the current subset vector
                 subset.push_back(remaining.at(i));
             }
-        }   
+        }
+
         //if the totalElectorals of this subset is at least the needed value...
         if(totalElectorals(subset) >= needed) {
+            
             //puts this subset vector into subsetsVector
             subsetsVector.push_back(subset);
             counter++;
         }
     }
+    //if the counter is 0, it means that this party cannot win the election
+    if(counter == 0) {
+        cout << "It looks like this party cannot win the election!" << endl << endl;
+        return 0;            
+    }
+    
     return counter;
 }
 
+//DONE
 //displays all of the possible winning subsets of remaining states
+//be sure to call subsetsOfRemaining() with the same subsetsVector BEFORE any calls to this function!
 void displayWinningSubsets(vector<State> party, vector<State> remaining, vector< vector<State> > &subsetsVector) {
-    //clears the subsetsVector to prevent issues with push_back
-    vector< vector<State> > tempVector;
-    subsetsVector = tempVector;
     
-    //calculates the number of winning subsets, and modifies the subsetsVector accordingly
-    subsetsOfRemaining(party, remaining, subsetsVector);
-
     //displays all of the subsets of states created from the remaining states
     for(int i = 0; !subsetsVector.empty() && i < subsetsVector.size(); i++) {
         cout << "Subset #" << i + 1 << ": ";
@@ -459,26 +485,32 @@ void displayWinningSubsets(vector<State> party, vector<State> remaining, vector<
     }
 }
 
-//finds all of the subsets that contain the lowest number of states to win, returns them in a vector of vector<State>s
+//DONE
+//finds all of the subsets that contain the lowest number of states to win, returns them in a vector of vector<State>
 vector< vector<State> > allMinSubsets(vector< vector<State> > subsetsVector) {
     
-    //adds all vectors of size low to the returnVector
+    //this is the vector to be returned
     vector< vector<State> > returnVector;
 
+    //if the subsets vector is empty, return with an empty vector
     if(subsetsVector.empty()) {
         return returnVector;
     }
 
-    //finds the smallest subset in the vector, stores in low
+    //assigns the size of the first subset to low, will be edited in loop
     int low = subsetsVector.at(0).size();
     
+    //goes through all of the subsets in the vector, updating low
     for(int i = 1; i < subsetsVector.size(); i++) {
         if(subsetsVector.at(i).size() < low) {
             low = subsetsVector.at(i).size();
         }
     }
 
+    //goes through all of the subsets in the vector, finds the ones of size low
     for(int i = 0; i < subsetsVector.size(); i++) {
+        
+        //if they are of the right size, they are pushed into the return vector
         if(subsetsVector.at(i).size() == low) {
             returnVector.push_back(subsetsVector.at(i));
         }
@@ -488,77 +520,78 @@ vector< vector<State> > allMinSubsets(vector< vector<State> > subsetsVector) {
     return returnVector;
 }
 
+//DONE
 //moves a state from one source and puts it back into destination
 void moveState(string stateName, vector<State> &source, vector<State> &destination) {
     
     //for all of the states in the source...
     for(int i = 0; !source.empty() && i < source.size(); i++) {
+        
         //...if the state is found in the source...
         if(toUpper(source.at(i).getName()) == toUpper(stateName)) {
+            
             //...for all of the states in the destination section...
             for(int j = 0; !destination.empty() && j < destination.size(); j++) {
-                //...if the name matches AND it is an untraditional...
-                if(destination.at(j).getName() == source.at(i).getName() && source.at(i).getUntraditional()) {
-                    cout << "Got here 1" << endl;
-                    //...update the electoral count of the state in destination...
-                    destination.at(j).setElectorals(destination.at(j).getElectorals() + source.at(i).getElectorals());
-                    //...remove it from the source
-                    source.erase(source.begin() + i);
+                
+                //...if the name matches...
+                if(destination.at(j).getName() == source.at(i).getName()) {
+                    cout << "Error, the state was found in the destination too!" << endl;
                     return;
                 }
             }
-            //reaches this if the state is not found in destination
-            cout << "Got here 2" << endl;
-            //puts the state in destination and deletes it from the source
+            //reaches this if the state is not found in destination, puts the state in destination and deletes it from the source
             destination.push_back(source.at(i));
             source.erase(source.begin() + i);
             return;
         }
     }
+    //reaches this if the state is not found in the source
+    cout << "Error, the state was not found in the source!" << endl;
 }
 
+//DONE
 //saves the changes made regarding states in the states.txt file
 void saveStates(vector<State> republican, vector<State> democrat, vector<State> remaining) {
+    
+    //creates an instance of the output file stream to write to a text file
     ofstream OFS;
-    OFS.open("resources/states-modified.txt");
+    
+    //open the original "states.txt" file to overwrite
+    OFS.open("resources/states.txt");
 
+    //if it cannot be opened, display this message
     if(!OFS.is_open()) {
         cout << "Could not open file to save states!" << endl;
     }
 
+    //writes all of the republican states to the file
     OFS << "Republican:" << endl << endl;
     for(int i = 0; !republican.empty() && i < republican.size(); i++) {
-        OFS << republican.at(i).getName();
-        if(republican.at(i).getUntraditional())
-            OFS << " " << republican.at(i).getElectorals();
-        OFS << endl;
+        OFS << republican.at(i).getName() << endl;
     }
     OFS << endl;
 
+    //writes all of the democratic states to the file
     OFS << "Democrat:" << endl << endl;
     for(int i = 0; !democrat.empty() && i < democrat.size(); i++) {
-        OFS << democrat.at(i).getName();
-        if(democrat.at(i).getUntraditional())
-            OFS << " " << democrat.at(i).getElectorals();
-        OFS << endl;
+        OFS << democrat.at(i).getName() << endl;
     }
     OFS << endl;
 
+    //writes all of the remaining states to the file
     OFS << "Remaining:" << endl << endl;
     for(int i = 0; !remaining.empty() && i < remaining.size(); i++) {
-        OFS << remaining.at(i).getName();
-        if(remaining.at(i).getUntraditional())
-            OFS << " " << remaining.at(i).getElectorals();
-        OFS << endl;
+        OFS << remaining.at(i).getName() << endl;
     }
     OFS << endl;
 
+    //closes the file
     OFS.close();
 }
 
 int main() {
     
-    //creates a vector of all 51 states called 'Country'
+    //creates a vector of all 56 states called 'Country'
     vector<State> Country = stateVector();
 
     //vectors will store the strings from the input file
@@ -572,7 +605,7 @@ int main() {
     vector<State> democrat = stringToState(democratStates, Country);
     vector<State> remaining = stringToState(remainingStates, Country);
 
-    //outputs the number of states in each category (won't add up to 51 because of untraditionals)
+    //outputs the number of states in each category
     cout << endl << "Republican States: " << republican.size() << endl;
     cout << "Democratic States: " << democrat.size() << endl;
     cout << "Remaining States: " << remaining.size() << endl << endl; 
@@ -581,12 +614,14 @@ int main() {
     cout << "Republican Electoral Votes: " << totalElectorals(republican) << endl;
     cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
     cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
-    /*
-    //displays the number of subsets of the remaining states can be created
+    
+    //displays the number of subsets of the remaining states that can win the election
     vector< vector<State> > subsetsVectorDemocrat;
     vector< vector<State> > subsetsVectorRepublican;
-    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(democrat, remaining, subsetsVectorDemocrat) << " subsets that can win the election for Democrats." << endl;
-    cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(republican, remaining, subsetsVectorRepublican) << " subsets that can win the election for Republicans." << endl << endl;
+    int rsubs = subsetsOfRemaining(democrat, remaining, subsetsVectorDemocrat);
+    int dsubs = subsetsOfRemaining(republican, remaining, subsetsVectorRepublican);
+    cout << "With " << remaining.size() << " remaining states, there are " << rsubs << " subsets that can win the election for Democrats." << endl;
+    cout << "With " << remaining.size() << " remaining states, there are " << dsubs << " subsets that can win the election for Republicans." << endl << endl;
     
     //displays all of the subsets that win the election
     displayWinningSubsets(republican, remaining, subsetsVectorRepublican);
@@ -623,23 +658,6 @@ int main() {
     }
     cout << endl;
     }
-    */
-
-    moveState("Nebraska", republican, remaining);
-    moveState("Oklahoma", republican, democrat);
-
-
-    //outputs the number of states in each category (won't add up to 51 because of untraditionals)
-    cout << endl << "Republican States: " << republican.size() << endl;
-    cout << "Democratic States: " << democrat.size() << endl;
-    cout << "Remaining States: " << remaining.size() << endl << endl; 
-    
-    //outputs the total number of electoral votes each vector has
-    cout << "Republican Electoral Votes: " << totalElectorals(republican) << endl;
-    cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
-    cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
-
-    saveStates(republican, democrat, remaining);
 
     return 0;
 }
