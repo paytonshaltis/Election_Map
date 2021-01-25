@@ -12,9 +12,7 @@ Maine 1
 Mississippi
 Missouri
 Montana
-Nebraska 3
 North_Dakota
-Oklahoma
 South_Carolina
 South_Dakota
 Tennessee
@@ -42,6 +40,7 @@ Rhode_Island
 Vermont
 Virginia
 Washington
+Oklahoma
 
 Remaining:
 
@@ -55,7 +54,8 @@ Nevada
 New_Hampshire
 North_Carolina
 Ohio
-Nebraska 2
+Nebraska 5
 Pennsylvania
 Texas
 Wisconsin
+

@@ -462,6 +462,13 @@ void displayWinningSubsets(vector<State> party, vector<State> remaining, vector<
 //finds all of the subsets that contain the lowest number of states to win, returns them in a vector of vector<State>s
 vector< vector<State> > allMinSubsets(vector< vector<State> > subsetsVector) {
     
+    //adds all vectors of size low to the returnVector
+    vector< vector<State> > returnVector;
+
+    if(subsetsVector.empty()) {
+        return returnVector;
+    }
+
     //finds the smallest subset in the vector, stores in low
     int low = subsetsVector.at(0).size();
     
@@ -471,9 +478,6 @@ vector< vector<State> > allMinSubsets(vector< vector<State> > subsetsVector) {
         }
     }
 
-    //adds all vectors of size low to the returnVector
-    vector< vector<State> > returnVector;
-
     for(int i = 0; i < subsetsVector.size(); i++) {
         if(subsetsVector.at(i).size() == low) {
             returnVector.push_back(subsetsVector.at(i));
@@ -482,6 +486,74 @@ vector< vector<State> > allMinSubsets(vector< vector<State> > subsetsVector) {
 
     //returns the vector containing all vector<State> with the smallest size
     return returnVector;
+}
+
+//moves a state from one source and puts it back into destination
+void moveState(string stateName, vector<State> &source, vector<State> &destination) {
+    
+    //for all of the states in the source...
+    for(int i = 0; !source.empty() && i < source.size(); i++) {
+        //...if the state is found in the source...
+        if(toUpper(source.at(i).getName()) == toUpper(stateName)) {
+            //...for all of the states in the destination section...
+            for(int j = 0; !destination.empty() && j < destination.size(); j++) {
+                //...if the name matches AND it is an untraditional...
+                if(destination.at(j).getName() == source.at(i).getName() && source.at(i).getUntraditional()) {
+                    cout << "Got here 1" << endl;
+                    //...update the electoral count of the state in destination...
+                    destination.at(j).setElectorals(destination.at(j).getElectorals() + source.at(i).getElectorals());
+                    //...remove it from the source
+                    source.erase(source.begin() + i);
+                    return;
+                }
+            }
+            //reaches this if the state is not found in destination
+            cout << "Got here 2" << endl;
+            //puts the state in destination and deletes it from the source
+            destination.push_back(source.at(i));
+            source.erase(source.begin() + i);
+            return;
+        }
+    }
+}
+
+//saves the changes made regarding states in the states.txt file
+void saveStates(vector<State> republican, vector<State> democrat, vector<State> remaining) {
+    ofstream OFS;
+    OFS.open("resources/states-modified.txt");
+
+    if(!OFS.is_open()) {
+        cout << "Could not open file to save states!" << endl;
+    }
+
+    OFS << "Republican:" << endl << endl;
+    for(int i = 0; !republican.empty() && i < republican.size(); i++) {
+        OFS << republican.at(i).getName();
+        if(republican.at(i).getUntraditional())
+            OFS << " " << republican.at(i).getElectorals();
+        OFS << endl;
+    }
+    OFS << endl;
+
+    OFS << "Democrat:" << endl << endl;
+    for(int i = 0; !democrat.empty() && i < democrat.size(); i++) {
+        OFS << democrat.at(i).getName();
+        if(democrat.at(i).getUntraditional())
+            OFS << " " << democrat.at(i).getElectorals();
+        OFS << endl;
+    }
+    OFS << endl;
+
+    OFS << "Remaining:" << endl << endl;
+    for(int i = 0; !remaining.empty() && i < remaining.size(); i++) {
+        OFS << remaining.at(i).getName();
+        if(remaining.at(i).getUntraditional())
+            OFS << " " << remaining.at(i).getElectorals();
+        OFS << endl;
+    }
+    OFS << endl;
+
+    OFS.close();
 }
 
 int main() {
@@ -509,37 +581,40 @@ int main() {
     cout << "Republican Electoral Votes: " << totalElectorals(republican) << endl;
     cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
     cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
-    
+    /*
     //displays the number of subsets of the remaining states can be created
     vector< vector<State> > subsetsVectorDemocrat;
     vector< vector<State> > subsetsVectorRepublican;
     cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(democrat, remaining, subsetsVectorDemocrat) << " subsets that can win the election for Democrats." << endl;
     cout << "With " << remaining.size() << " remaining states, there are " << subsetsOfRemaining(republican, remaining, subsetsVectorRepublican) << " subsets that can win the election for Republicans." << endl << endl;
-    /*
+    
     //displays all of the subsets that win the election
     displayWinningSubsets(republican, remaining, subsetsVectorRepublican);
     displayWinningSubsets(democrat, remaining, subsetsVectorDemocrat);
-    */
+    
     //calculates and displays the number of minimum states each needs to win, and what the possibilities are for each of them
     vector< vector<State> > republicanMin = allMinSubsets(subsetsVectorRepublican);
     vector< vector<State> > democratMin = allMinSubsets(subsetsVectorDemocrat);
 
-    cout << "For Republicans, the minimum number of states that can win them the election is "  << republicanMin.at(0).size() << endl;
-    cout << "They have " << republicanMin.size() << " subsets that contain " << republicanMin.at(0).size() << " states." << endl << endl;
+    if(!republicanMin.empty()) {
+        cout << "For Republicans, the minimum number of states that can win them the election is "  << republicanMin.at(0).size() << endl;
+        cout << "They have " << republicanMin.size() << " subsets that contain " << republicanMin.at(0).size() << " states." << endl << endl;
 
-    for(int i = 0; i < republicanMin.size(); i++) {
-        cout << "Subset #" << i+1 << ": ";
-        for(int j = 0; j < republicanMin.at(i).size(); j++) {
-            cout << republicanMin.at(i).at(j).getName() << " ";
+        for(int i = 0; !republicanMin.empty() && i < republicanMin.size(); i++) {
+            cout << "Subset #" << i+1 << ": ";
+            for(int j = 0; j < republicanMin.at(i).size(); j++) {
+                cout << republicanMin.at(i).at(j).getName() << " ";
+            }
+            cout << endl;
         }
         cout << endl;
     }
-    cout << endl;
-
+    
+    if(!democratMin.empty()) {
     cout << "For Democrats, the minimum number of states that can win them the election is "  << democratMin.at(0).size() << endl;
     cout << "They have " << democratMin.size() << " subsets that contain " << democratMin.at(0).size() << " states." << endl << endl;
 
-    for(int i = 0; i < democratMin.size(); i++) {
+    for(int i = 0; !democratMin.empty() && i < democratMin.size(); i++) {
         cout << "Subset #" << i+1 << ": ";
         for(int j = 0; j < democratMin.at(i).size(); j++) {
             cout << democratMin.at(i).at(j).getName() << " ";
@@ -547,6 +622,24 @@ int main() {
         cout << endl;
     }
     cout << endl;
+    }
+    */
+
+    moveState("Nebraska", republican, remaining);
+    moveState("Oklahoma", republican, democrat);
+
+
+    //outputs the number of states in each category (won't add up to 51 because of untraditionals)
+    cout << endl << "Republican States: " << republican.size() << endl;
+    cout << "Democratic States: " << democrat.size() << endl;
+    cout << "Remaining States: " << remaining.size() << endl << endl; 
+    
+    //outputs the total number of electoral votes each vector has
+    cout << "Republican Electoral Votes: " << totalElectorals(republican) << endl;
+    cout << "Democratic Electoral Votes: " << totalElectorals(democrat) << endl;
+    cout << "Remaining Electoral Votes: " << totalElectorals(remaining) << endl << endl;
+
+    saveStates(republican, democrat, remaining);
 
     return 0;
 }
