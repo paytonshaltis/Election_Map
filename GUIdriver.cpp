@@ -352,7 +352,7 @@ void statesFromFile(vector<string> &republicanStates, vector<string> &democratSt
                 for(int i = 0; !Country.empty() && i < Country.size(); i++) {
                     if(toUpper(republicanStates.back()) == toUpper(Country.at(i).getName())) {
                         colorVector.at(i) = 2;
-                        stateSquares.at(i).setFillColor(sf::Color::Red);
+                        stateSquares.at(i).setFillColor(sf::Color(230, 10, 10));
                     }
                 }
             statesFile >> currentWord;
@@ -365,7 +365,7 @@ void statesFromFile(vector<string> &republicanStates, vector<string> &democratSt
                 for(int i = 0; !Country.empty() && i < Country.size(); i++) {
                     if(toUpper(democratStates.back()) == toUpper(Country.at(i).getName())) {
                         colorVector.at(i) = 1;
-                        stateSquares.at(i).setFillColor(sf::Color::Blue);
+                        stateSquares.at(i).setFillColor(sf::Color(10, 104, 247));
                     }
                 }
             statesFile >> currentWord;
@@ -532,7 +532,6 @@ void moveState(State state, vector<State> &source, vector<State> &destination) {
                 
                 //...if the name matches...
                 if(destination.at(j).getName() == source.at(i).getName()) {
-                    cout << "Error, the state was found in the destination too!" << endl;
                     return;
                 }
             }
@@ -1086,6 +1085,27 @@ void defaultState(sf::RectangleShape &state) {
 
 }
 
+//calculates what the size of the democrat bar should be each frame
+void adjustDemocratBar(sf::RectangleShape &democratBar, vector<State> democrat) {
+
+    //keeps the bar proportional to the number of democrat electoral votes
+    int electorals = totalElectorals(democrat);
+    int length = 655 * ((float)electorals / 538);
+    democratBar.setSize(sf::Vector2f(length + 1, 18));
+}
+
+//calculates what the size and position of the republican bar should be each frame
+void adjustRepublicanBar(sf::RectangleShape &republicanBar, vector<State> republican) {
+
+    //keeps the bar proportional to the number of republican electoral votes
+    int electorals = totalElectorals(republican);
+    int length = 655 * ((float)electorals / 538);
+    republicanBar.setSize(sf::Vector2f(length, 18));
+
+    //moves the bar so that it 'grows' from the right side of the screen
+    republicanBar.setPosition(sf::Vector2f(655 - length + 65, 26));
+}
+
 int main() {
     
     //window dimensiona are proportional to the computer's resolution
@@ -1121,12 +1141,37 @@ int main() {
     vector<State> democrat = stringToState(democratStates, Country);
     vector<State> remaining = stringToState(remainingStates, Country);
     
+    //creates the total bar at the top of the screen
+    sf::RectangleShape totalBar(sf::Vector2f(655, 18));
+    totalBar.setOrigin(327.5, 9);
+    totalBar.setFillColor(sf::Color::White);
+    totalBar.setPosition(sf::Vector2f(367.5 + 25, 35));
+
+    //creates the division in the middle of the total bar
+    sf::RectangleShape totalBarDivision(sf::Vector2f(5, 30));
+    totalBarDivision.setFillColor(sf::Color(193, 185, 185, 150));
+    totalBarDivision.setOrigin(2.5, 15);
+    totalBarDivision.setPosition(sf::Vector2f(367.5 + 25, 35));
+
+    //creates the total bar at the top of the screen for democrats
+    sf::RectangleShape democratBar;
+    democratBar.setFillColor(sf::Color(10, 104, 247));
+    democratBar.setPosition(sf::Vector2f(65, 26));
+
+    //creates the total bar at the top of the screen for republicans
+    sf::RectangleShape republicanBar;
+    republicanBar.setFillColor(sf::Color(230, 10, 10));
+
     /*
     //loads the remaining vector with all of the states to begin with
     for(int i = 0; !Country.empty() && i < Country.size(); i++) {
         remaining.push_back(Country.at(i));
     }
     */
+
+    for(int i = 0; i < democrat.size(); i++) {
+        cout << democrat.at(i).getName() << endl;
+    }
 
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
@@ -1167,11 +1212,11 @@ int main() {
                                 moveState(Country.at(i), republican, remaining);
                             }
                             if(colorVector.at(i) % 3 == 1) {
-                                stateSquares.at(i).setFillColor(sf::Color::Blue);
+                                stateSquares.at(i).setFillColor(sf::Color(10, 104, 247));
                                 moveState(Country.at(i), remaining, democrat);
                             }
                             if(colorVector.at(i) % 3 == 2) {
-                                stateSquares.at(i).setFillColor(sf::Color::Red);
+                                stateSquares.at(i).setFillColor(sf::Color(230, 10, 10));
                                 moveState(Country.at(i), democrat, republican);
                             }
                         }
@@ -1188,11 +1233,11 @@ int main() {
                                 moveState(Country.at(i), republican, remaining);
                             }
                             if(colorVector.at(i) % 3 == 1) {
-                                stateSquares.at(i).setFillColor(sf::Color::Blue);
+                                stateSquares.at(i).setFillColor(sf::Color(10, 104, 247));
                                 moveState(Country.at(i), remaining, democrat);
                             }
                             if(colorVector.at(i) % 3 == 2) {
-                                stateSquares.at(i).setFillColor(sf::Color::Red);
+                                stateSquares.at(i).setFillColor(sf::Color(230, 10, 10));
                                 moveState(Country.at(i), democrat, republican);
                             }
                         }
@@ -1209,11 +1254,11 @@ int main() {
                                 moveState(Country.at(i), republican, remaining);
                             }
                             if(colorVector.at(i) % 3 == 1) {
-                                stateSquares.at(i).setFillColor(sf::Color::Blue);
+                                stateSquares.at(i).setFillColor(sf::Color(10, 104, 247));
                                 moveState(Country.at(i), remaining, democrat);
                             }
                             if(colorVector.at(i) % 3 == 2) {
-                                stateSquares.at(i).setFillColor(sf::Color::Red);
+                                stateSquares.at(i).setFillColor(sf::Color(230, 10, 10));
                                 moveState(Country.at(i), democrat, republican);
                             }
                         }
@@ -1231,17 +1276,16 @@ int main() {
                                 moveState(Country.at(i), republican, remaining);
                             }
                             if(colorVector.at(i) % 3 == 1) {
-                                stateSquares.at(i).setFillColor(sf::Color::Blue);
+                                stateSquares.at(i).setFillColor(sf::Color(10, 104, 247));
                                 moveState(Country.at(i), remaining, democrat);
                             }
                             if(colorVector.at(i) % 3 == 2) {
-                                stateSquares.at(i).setFillColor(sf::Color::Red);
+                                stateSquares.at(i).setFillColor(sf::Color(230, 10, 10));
                                 moveState(Country.at(i), democrat, republican);
                             }
                         }
                     }  
                 }
-
                 //...use the mouse's position to display the coordinates in the terminal
                 sf::Vector2i currentMosPos = sf::Mouse::getPosition(window);
                 cout << currentMosPos.x << " " << currentMosPos.y << endl;
@@ -1311,11 +1355,18 @@ int main() {
             }
         }
 
+        adjustDemocratBar(democratBar, democrat);
+        adjustRepublicanBar(republicanBar, republican);
+
         //clears the window and draws all of the states / other assets
         window.clear();
         for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
             window.draw(stateSquares.at(i));
         }
+        window.draw(totalBar);
+        window.draw(totalBarDivision);
+        window.draw(democratBar);
+        window.draw(republicanBar);
         window.display();
         //==============================NORMAL GAME LOOP==============================//
     }
