@@ -24,9 +24,6 @@ Utah
 West_Virginia
 Wyoming
 
-
-
-
 Democrat:
 
 California
@@ -50,9 +47,6 @@ Vermont
 Virginia
 Washington
 
-
-
-
 Remaining:
 
 Arizona
@@ -68,3 +62,4 @@ Ohio
 Pennsylvania
 Texas
 Wisconsin
+
