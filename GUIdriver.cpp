@@ -764,27 +764,27 @@ void allStateSquares(vector<sf::RectangleShape> &stateSquares) {
     Montana.setFillColor(sf::Color::White);
     stateSquares.push_back(Montana);
         
-    sf::RectangleShape Nebraska_State(sf::Vector2f(50, 50));
-    Nebraska_State.setOrigin(sf::Vector2f(25, 25));
-    Nebraska_State.setPosition(310, 365);
+    sf::RectangleShape Nebraska_State(sf::Vector2f(50, 22.5));
+    Nebraska_State.setOrigin(sf::Vector2f(25, 11.25));
+    Nebraska_State.setPosition(310, 351.25);
     Nebraska_State.setFillColor(sf::Color::White);
     stateSquares.push_back(Nebraska_State);
     
-    sf::RectangleShape Nebraska_Congressional_1(sf::Vector2f(50, 50));
-    Nebraska_Congressional_1.setOrigin(sf::Vector2f(25, 25));
-    //Nebraska_Congressional_1.setPosition();
+    sf::RectangleShape Nebraska_Congressional_1(sf::Vector2f(13 + 1/3, 22.5));
+    Nebraska_Congressional_1.setOrigin(sf::Vector2f(6 + 2/3, 11.25));
+    Nebraska_Congressional_1.setPosition(292, 378.75);
     Nebraska_Congressional_1.setFillColor(sf::Color::White);
     stateSquares.push_back(Nebraska_Congressional_1);
         
-    sf::RectangleShape Nebraska_Congressional_2(sf::Vector2f(50, 50));
-    Nebraska_Congressional_2.setOrigin(sf::Vector2f(25, 25));
-    //Nebraska_Congressional_2.setPosition();
+    sf::RectangleShape Nebraska_Congressional_2(sf::Vector2f(13 + 1/3, 22.5));
+    Nebraska_Congressional_2.setOrigin(sf::Vector2f(6 + 2/3, 11.25));
+    Nebraska_Congressional_2.setPosition(310, 378.75);
     Nebraska_Congressional_2.setFillColor(sf::Color::White);
     stateSquares.push_back(Nebraska_Congressional_2);
         
-    sf::RectangleShape Nebraska_Congressional_3(sf::Vector2f(50, 50));
-    Nebraska_Congressional_3.setOrigin(sf::Vector2f(25, 25));
-    //Nebraska_Congressional_3.setPosition();
+    sf::RectangleShape Nebraska_Congressional_3(sf::Vector2f(13 + 1/3, 22.5));
+    Nebraska_Congressional_3.setOrigin(sf::Vector2f(6 + 2/3, 11.25));
+    Nebraska_Congressional_3.setPosition(328 + 1/3, 378.75);
     Nebraska_Congressional_3.setFillColor(sf::Color::White);
     stateSquares.push_back(Nebraska_Congressional_3);
     
@@ -979,6 +979,23 @@ bool testHoverOverQuarterState(sf::RectangleShape state, sf::Vector2i mousePos) 
     return false;
 }
 
+//tests to see if the mouse is currently hovered over a quarter-state
+bool testHoverOverSixthState(sf::RectangleShape state, sf::Vector2i mousePos) {
+
+    //if both the x and y coordinates are within the state's bounding box...
+    if(mousePos.x >= state.getPosition().x - 6.6666 && mousePos.x <= state.getPosition().x + 6.6666) {
+
+        if(mousePos.y >= state.getPosition().y - 11.25 && mousePos.y <= state.getPosition().y + 11.25) {
+            
+            //...this function returns true
+            return true;
+        }
+    }
+    
+    //else, it returns false
+    return false;
+}
+
 //function that englarges a state if the mouse is currently over it
 void enlargeState(sf::RectangleShape &state) {
     
@@ -996,6 +1013,26 @@ void enlargeState(sf::RectangleShape &state) {
     else if(state.getPosition().x == 708.75 && state.getPosition().y == 158.75) {
         state.setOrigin(12.5, 12.5);
         state.setSize(sf::Vector2f(25, 25));
+    }
+    //Nebraska_State condition
+    else if(state.getPosition().x == 310 && state.getPosition().y == 351.25) {
+        state.setOrigin(26.25, 11.875);
+        state.setSize(sf::Vector2f(52.5, 23.75));
+    }
+    //Nebraska_Congressional_1 condition
+    else if(state.getPosition().x == 310 && state.getPosition().y == 378.75) {
+        state.setOrigin(7.9166, 12.5);
+        state.setSize(sf::Vector2f(15.8333, 25));
+    }
+    //Nebraska_Congressional_2 condition
+    else if(state.getPosition().x == 292 && state.getPosition().y == 378.75) {
+        state.setOrigin(7.9166, 12.5);
+        state.setSize(sf::Vector2f(15.8333, 25));
+    }
+    //Nebraska_Congressional_3 condition
+    else if(state.getPosition().x == 328 + 1/3 && state.getPosition().y == 378.75) {
+        state.setOrigin(7.9166, 12.5);
+        state.setSize(sf::Vector2f(15.8333, 25));
     }
     else {
         state.setOrigin(sf::Vector2f(26.25, 26.25));
@@ -1021,6 +1058,26 @@ void defaultState(sf::RectangleShape &state) {
     else if(state.getPosition().x == 708.75 && state.getPosition().y == 158.75) {
         state.setOrigin(11.25, 11.25);
         state.setSize(sf::Vector2f(22.5, 22.5));
+    }
+    //Nebraska_State condition
+    else if(state.getPosition().x == 310 && state.getPosition().y == 351.25) {
+        state.setOrigin(25, 11.25);
+        state.setSize(sf::Vector2f(50, 22.5));
+    }
+    //Nebraska_Congressional_1 condition
+    else if(state.getPosition().x == 310 && state.getPosition().y == 378.75) {
+        state.setOrigin(6.6666, 11.25);
+        state.setSize(sf::Vector2f(13.3333, 22.5));
+    }
+    //Nebraska_Congressional_2 condition
+    else if(state.getPosition().x == 292 && state.getPosition().y == 378.75) {
+        state.setOrigin(6.6666, 11.25);
+        state.setSize(sf::Vector2f(13.3333, 22.5));
+    }
+    //Nebraska_Congressional_3 condition
+    else if(state.getPosition().x == 328 + 1/3 && state.getPosition().y == 378.75) {
+        state.setOrigin(6.6666, 11.25);
+        state.setSize(sf::Vector2f(13.3333, 22.5));
     }
     else {
         state.setOrigin(sf::Vector2f(25, 25));
@@ -1140,6 +1197,27 @@ int main() {
                             }
                         }
                     }
+                    else if(i == 30 || i == 31 || i == 32) {
+                        if(testHoverOverSixthState(stateSquares.at(i), mousePos)) {
+                        
+                            //increment the number in position i of the color vector
+                            colorVector.at(i) += 1;
+
+                            //sets state's color base on integer value
+                            if(colorVector.at(i) % 3 == 0) {
+                                stateSquares.at(i).setFillColor(sf::Color::White);
+                                moveState(Country.at(i), republican, remaining);
+                            }
+                            if(colorVector.at(i) % 3 == 1) {
+                                stateSquares.at(i).setFillColor(sf::Color::Blue);
+                                moveState(Country.at(i), remaining, democrat);
+                            }
+                            if(colorVector.at(i) % 3 == 2) {
+                                stateSquares.at(i).setFillColor(sf::Color::Red);
+                                moveState(Country.at(i), democrat, republican);
+                            }
+                        }
+                    }
                     else {
                         //...if the mouse is over the square...
                         if(testHoverOverState(stateSquares.at(i), mousePos)) {
@@ -1190,10 +1268,24 @@ int main() {
                     defaultState(stateSquares.at(i));
                 }
             }
-            //half-state condition
+            //quarter-state condition
             else if(i == 20 || i == 21) {
                 //...if the moust is hovered over that state...
                 if(testHoverOverQuarterState(stateSquares.at(i), mousePos)) {
+
+                    //...enlarge the state in the window
+                    enlargeState(stateSquares.at(i));
+                }
+                else {
+
+                    //otherwise, reset it to its default size
+                    defaultState(stateSquares.at(i));
+                }
+            }
+            //sixth-state condition
+            else if(i == 30 || i == 31 || i == 32) {
+                //...if the moust is hovered over that state...
+                if(testHoverOverSixthState(stateSquares.at(i), mousePos)) {
 
                     //...enlarge the state in the window
                     enlargeState(stateSquares.at(i));
