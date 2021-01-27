@@ -589,6 +589,7 @@ void saveStates(vector<State> republican, vector<State> democrat, vector<State> 
     OFS.close();
 }
 
+
 int main() {
     
     //creates a vector of all 56 states called 'Country'
