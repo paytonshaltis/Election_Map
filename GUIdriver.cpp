@@ -1115,7 +1115,7 @@ int main() {
     */
 
     //creates the render window object with the following settings
-    sf::RenderWindow window(sf::VideoMode(1100, 750), "Election Outcomes Map", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(1100, 750), "Election Outcomes Map", sf::Style::Default);
 
     //creates an empty vector to be sent to the function that puts all of the states into it
     vector<sf::RectangleShape> stateSquares;
@@ -1189,6 +1189,10 @@ int main() {
         
         //creates the mouse object for tracking the position of the moust in the window
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        
+        //maps the pixels to coordinates to use when resizing the window - IMPORTANT!
+        sf::Vector2f coord_pos2 = window.mapPixelToCoords(mousePos);
+        sf::Vector2i coord_pos = (sf::Vector2i)(coord_pos2);
 
         //creates an event object called event
         sf::Event event;
@@ -1212,7 +1216,7 @@ int main() {
                     //half-state condition
                     if(i == 19 || i == 29) {
                         //...if the mouse is hovered over that state...
-                        if(testHoverOverHalfState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverHalfState(stateSquares.at(i), coord_pos)) {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
@@ -1226,7 +1230,7 @@ int main() {
                     //quarter-state condition
                     else if(i == 20 || i == 21) {
                         //...if the mouse is hovered over that state...
-                        if(testHoverOverQuarterState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverQuarterState(stateSquares.at(i), coord_pos)) {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
@@ -1240,7 +1244,7 @@ int main() {
                     //sixth-state condition
                     else if(i == 30 || i == 31 || i == 32) {
                         //...if the mouse is hovered over that state...
-                        if(testHoverOverSixthState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverSixthState(stateSquares.at(i), coord_pos)) {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
@@ -1253,7 +1257,7 @@ int main() {
                     }
                     else {
                         //...if the mouse is hovered over that state...
-                        if(testHoverOverState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverState(stateSquares.at(i), coord_pos)) {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
@@ -1265,7 +1269,7 @@ int main() {
                         }
                    }
                    //decides which state to display, or none at all
-                    if( (((i == 19 || i == 29) && (testHoverOverHalfState(stateSquares.at(i), mousePos))) || ((i == 20 || i == 21) && (testHoverOverQuarterState(stateSquares.at(i), mousePos))) || ((i == 30 || i == 31 || i == 32) && (testHoverOverSixthState(stateSquares.at(i), mousePos))) || ((i != 19 && i != 20 && i != 21 && i != 29 && i != 30 && i != 31 && i != 32) && (testHoverOverState(stateSquares.at(i), mousePos))))   ) {
+                    if( (((i == 19 || i == 29) && (testHoverOverHalfState(stateSquares.at(i), coord_pos))) || ((i == 20 || i == 21) && (testHoverOverQuarterState(stateSquares.at(i), coord_pos))) || ((i == 30 || i == 31 || i == 32) && (testHoverOverSixthState(stateSquares.at(i), coord_pos))) || ((i != 19 && i != 20 && i != 21 && i != 29 && i != 30 && i != 31 && i != 32) && (testHoverOverState(stateSquares.at(i), coord_pos))))   ) {
 
                         //changes the state label to whatever state is being hovered over
                         stateLabel.setString(Country.at(i).getName());
@@ -1274,7 +1278,7 @@ int main() {
                         break;
                     }
                     else {
-                        cout << "no" << endl;
+
                         //changes the state label to blank
                         stateLabel.setString("");
                         stateLabelRect = stateLabel.getLocalBounds();
