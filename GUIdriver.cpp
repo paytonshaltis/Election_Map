@@ -1162,28 +1162,38 @@ int main() {
     sf::RectangleShape republicanBar;
     republicanBar.setFillColor(sf::Color(230, 10, 10));
 
+    //test text for labels for the states
+    sf::Font stateLabelFont;
+    stateLabelFont.loadFromFile("26601088587.ttf");
+    sf::Text stateLabel;
+    sf::FloatRect stateLabelRect;
+    stateLabel.setString("");
+    stateLabel.setFont(stateLabelFont);
+    stateLabel.setCharacterSize(30);
+    stateLabel.setFillColor(sf::Color::White);
+    
+    //calculates the bounds of the enclosing rectangle, origin, and position after the string
+    stateLabelRect = stateLabel.getLocalBounds();
+    stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
+    stateLabel.setPosition(sf::Vector2f(367.5 + 26, 80));
+
     /*
     //loads the remaining vector with all of the states to begin with
     for(int i = 0; !Country.empty() && i < Country.size(); i++) {
         remaining.push_back(Country.at(i));
     }
     */
-
-    for(int i = 0; i < democrat.size(); i++) {
-        cout << democrat.at(i).getName() << endl;
-    }
-
+   
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
         
         //creates the mouse object for tracking the position of the moust in the window
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-        //==============================POLLING LOOP==================================//
         //creates an event object called event
         sf::Event event;
 
-        //polling loop that continues when the event object detects an event has occurred
+        //==============================POLLING LOOP==================================//
         while(window.pollEvent(event)) {
             
             //if the event indicates closing the window...
@@ -1191,6 +1201,82 @@ int main() {
                 //...close the window
                 window.close();
                 cout << "Successfully closed the window." << endl;
+            }
+            
+            //if the mouse is moved...
+            if(event.type == sf::Event::MouseMoved) {
+                
+                //for each of the states in the stateSquares vectors...
+                for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
+                    
+                    //half-state condition
+                    if(i == 19 || i == 29) {
+                        //...if the mouse is hovered over that state...
+                        if(testHoverOverHalfState(stateSquares.at(i), mousePos)) {
+
+                            //...enlarge the state in the window
+                            enlargeState(stateSquares.at(i));
+                            stateLabel.setString(Country.at(i).getName());
+                            stateLabelRect = stateLabel.getLocalBounds();
+                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
+                        }
+                        else {
+
+                            //otherwise, reset it to its default size
+                            defaultState(stateSquares.at(i));
+                        }
+                    }
+                    //quarter-state condition
+                    else if(i == 20 || i == 21) {
+                        //...if the mouse is hovered over that state...
+                        if(testHoverOverQuarterState(stateSquares.at(i), mousePos)) {
+
+                            //...enlarge the state in the window
+                            enlargeState(stateSquares.at(i));
+                            stateLabel.setString(Country.at(i).getName());
+                            stateLabelRect = stateLabel.getLocalBounds();
+                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
+                        }
+                        else {
+
+                            //otherwise, reset it to its default size
+                            defaultState(stateSquares.at(i));
+                        }
+                    }
+                    //sixth-state condition
+                    else if(i == 30 || i == 31 || i == 32) {
+                        //...if the mouse is hovered over that state...
+                        if(testHoverOverSixthState(stateSquares.at(i), mousePos)) {
+
+                            //...enlarge the state in the window
+                            enlargeState(stateSquares.at(i));
+                            stateLabel.setString(Country.at(i).getName());
+                            stateLabelRect = stateLabel.getLocalBounds();
+                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
+                        }
+                        else {
+
+                            //otherwise, reset it to its default size
+                            defaultState(stateSquares.at(i));
+                        }
+                    }
+                    else {
+                        //...if the mouse is hovered over that state...
+                        if(testHoverOverState(stateSquares.at(i), mousePos)) {
+
+                            //...enlarge the state in the window
+                            enlargeState(stateSquares.at(i));
+                            stateLabel.setString(Country.at(i).getName());
+                            stateLabelRect = stateLabel.getLocalBounds();
+                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
+                        }
+                        else {
+
+                            //otherwise, reset it to its default size
+                            defaultState(stateSquares.at(i));
+                        }
+                    }
+                }
             }
 
             //if the event indicates clicking with the mouse...
@@ -1292,69 +1378,8 @@ int main() {
             }
             
         }
-        //==============================POLLING LOOP==================================//
 
-        //==============================NORMAL GAME LOOP==============================//
-        //for each of the states in the stateSquares vectors...
-        for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
-            
-            //half-state condition
-            if(i == 19 || i == 29) {
-                //...if the moust is hovered over that state...
-                if(testHoverOverHalfState(stateSquares.at(i), mousePos)) {
-
-                    //...enlarge the state in the window
-                    enlargeState(stateSquares.at(i));
-                }
-                else {
-
-                    //otherwise, reset it to its default size
-                    defaultState(stateSquares.at(i));
-                }
-            }
-            //quarter-state condition
-            else if(i == 20 || i == 21) {
-                //...if the moust is hovered over that state...
-                if(testHoverOverQuarterState(stateSquares.at(i), mousePos)) {
-
-                    //...enlarge the state in the window
-                    enlargeState(stateSquares.at(i));
-                }
-                else {
-
-                    //otherwise, reset it to its default size
-                    defaultState(stateSquares.at(i));
-                }
-            }
-            //sixth-state condition
-            else if(i == 30 || i == 31 || i == 32) {
-                //...if the moust is hovered over that state...
-                if(testHoverOverSixthState(stateSquares.at(i), mousePos)) {
-
-                    //...enlarge the state in the window
-                    enlargeState(stateSquares.at(i));
-                }
-                else {
-
-                    //otherwise, reset it to its default size
-                    defaultState(stateSquares.at(i));
-                }
-            }
-            else {
-                //...if the moust is hovered over that state...
-                if(testHoverOverState(stateSquares.at(i), mousePos)) {
-
-                    //...enlarge the state in the window
-                    enlargeState(stateSquares.at(i));
-                }
-                else {
-
-                    //otherwise, reset it to its default size
-                    defaultState(stateSquares.at(i));
-                }
-            }
-        }
-
+        //adjusts the size of the two parties' total bars
         adjustDemocratBar(democratBar, democrat);
         adjustRepublicanBar(republicanBar, republican);
 
@@ -1364,13 +1389,11 @@ int main() {
             window.draw(stateSquares.at(i));
         }
         window.draw(totalBar);
-        window.draw(totalBarDivision);
         window.draw(democratBar);
         window.draw(republicanBar);
+        window.draw(totalBarDivision);
+        window.draw(stateLabel);
         window.display();
-        //==============================NORMAL GAME LOOP==============================//
     }
-        
-
     return 0;
 }
