@@ -1216,9 +1216,6 @@ int main() {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
-                            stateLabel.setString(Country.at(i).getName());
-                            stateLabelRect = stateLabel.getLocalBounds();
-                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
                         }
                         else {
 
@@ -1233,9 +1230,6 @@ int main() {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
-                            stateLabel.setString(Country.at(i).getName());
-                            stateLabelRect = stateLabel.getLocalBounds();
-                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
                         }
                         else {
 
@@ -1250,9 +1244,6 @@ int main() {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
-                            stateLabel.setString(Country.at(i).getName());
-                            stateLabelRect = stateLabel.getLocalBounds();
-                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
                         }
                         else {
 
@@ -1266,15 +1257,28 @@ int main() {
 
                             //...enlarge the state in the window
                             enlargeState(stateSquares.at(i));
-                            stateLabel.setString(Country.at(i).getName());
-                            stateLabelRect = stateLabel.getLocalBounds();
-                            stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
                         }
                         else {
 
                             //otherwise, reset it to its default size
                             defaultState(stateSquares.at(i));
                         }
+                   }
+                   //decides which state to display, or none at all
+                    if( (((i == 19 || i == 29) && (testHoverOverHalfState(stateSquares.at(i), mousePos))) || ((i == 20 || i == 21) && (testHoverOverQuarterState(stateSquares.at(i), mousePos))) || ((i == 30 || i == 31 || i == 32) && (testHoverOverSixthState(stateSquares.at(i), mousePos))) || ((i != 19 && i != 20 && i != 21 && i != 29 && i != 30 && i != 31 && i != 32) && (testHoverOverState(stateSquares.at(i), mousePos))))   ) {
+
+                        //changes the state label to whatever state is being hovered over
+                        stateLabel.setString(Country.at(i).getName());
+                        stateLabelRect = stateLabel.getLocalBounds();
+                        stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
+                        break;
+                    }
+                    else {
+                        cout << "no" << endl;
+                        //changes the state label to blank
+                        stateLabel.setString("");
+                        stateLabelRect = stateLabel.getLocalBounds();
+                        stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
                     }
                 }
             }
