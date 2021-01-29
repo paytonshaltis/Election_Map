@@ -1117,29 +1117,53 @@ int main() {
     //creates the render window object with the following settings
     sf::RenderWindow window(sf::VideoMode(1100, 750), "Election Outcomes Map", sf::Style::Default);
 
+    //vectors will store the strings from the input file
+    vector<string> republicanStates;
+    vector<string> democratStates;
+    vector<string> remainingStates;
+
+    //creates the three empty vectors of states
+    vector<State> republican;
+    vector<State> democrat;
+    vector<State> remaining;
+
+    //creates a vector with all of the State objects in it
+    vector<State> Country = stateVector();
+
     //creates an empty vector to be sent to the function that puts all of the states into it
     vector<sf::RectangleShape> stateSquares;
     allStateSquares(stateSquares);
 
-    //creates a vector with all of the State objects in it
-    vector<State> Country = stateVector();
-    
     //creates a vector of ints that incremented and used to determing color, sets all 56 values to 0
     vector<int> colorVector;
     for(int i = 0; i < 56; i++) {
         colorVector.push_back(0);
     }
 
-    //vectors will store the strings from the input file
-    vector<string> republicanStates;
-    vector<string> democratStates;
-    vector<string> remainingStates;
-    statesFromFile(republicanStates, democratStates, remainingStates, Country, colorVector, stateSquares);
+    //decides if results are preloaded or not
+    string userRequest;
+    while(toUpper(userRequest) != "PRELOAD" && toUpper(userRequest) != "EMPTY") {
+        cout << "For a preloaded map, type \"preload\". For an empty map, type \"empty\"." << endl << "Enter: ";
+        cin >> userRequest;
 
-    //converts the vectors of strings into vectors of states
-    vector<State> republican = stringToState(republicanStates, Country);
-    vector<State> democrat = stringToState(democratStates, Country);
-    vector<State> remaining = stringToState(remainingStates, Country);
+        if(toUpper(userRequest) == "PRELOAD") {
+            
+            //fills the vectors from the file
+            statesFromFile(republicanStates, democratStates, remainingStates, Country, colorVector, stateSquares);
+
+            //converts the vectors of strings into vectors of states
+            republican = stringToState(republicanStates, Country);
+            democrat = stringToState(democratStates, Country);
+            remaining = stringToState(remainingStates, Country);
+        }
+        else if(toUpper(userRequest) == "EMPTY") {
+
+            //loads the remaining vector with all of the states to begin with
+            for(int i = 0; !Country.empty() && i < Country.size(); i++) {
+                remaining.push_back(Country.at(i));
+            }
+        }
+    }
     
     //creates the total bar at the top of the screen
     sf::RectangleShape totalBar(sf::Vector2f(655, 18));
@@ -1177,13 +1201,34 @@ int main() {
     stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
     stateLabel.setPosition(sf::Vector2f(367.5 + 26, 80));
 
-    /*
-    //loads the remaining vector with all of the states to begin with
-    for(int i = 0; !Country.empty() && i < Country.size(); i++) {
-        remaining.push_back(Country.at(i));
-    }
-    */
-   
+    //creates the background for the control panel to the right of the map
+    sf::RectangleShape controlBack;
+    controlBack.setSize(sf::Vector2f(325, 700));
+    controlBack.setPosition(sf::Vector2f(750, 31));
+    controlBack.setFillColor(sf::Color(190, 190, 190));
+    controlBack.setOutlineColor(sf::Color::White);
+    controlBack.setOutlineThickness(5.f);
+
+    //creates the label for the control panel
+    sf::Text controlLabel;
+    controlLabel.setFont(stateLabelFont);
+    controlLabel.setString("Controls");
+    controlLabel.setCharacterSize(30);
+    controlLabel.setFillColor(sf::Color::Black);
+    sf::FloatRect controlLabelRect;
+    controlLabelRect = controlLabel.getLocalBounds();
+    controlLabel.setOrigin(controlLabelRect.left + controlLabelRect.width/2, controlLabelRect.top + controlLabelRect.height/2);
+    controlLabel.setPosition(sf::Vector2f(controlBack.getPosition().x + (controlBack.getSize().x/2), 50));
+    
+    //creates the background for the screen of text
+    sf::RectangleShape textScreenBack;
+    textScreenBack.setSize(sf::Vector2f(645, 120));
+    textScreenBack.setOrigin(sf::Vector2f(327.5, 60));
+    textScreenBack.setPosition(sf::Vector2f(totalBar.getPosition().x + 5, 671));
+    textScreenBack.setFillColor(sf::Color::Black);
+    textScreenBack.setOutlineColor(sf::Color::White);
+    textScreenBack.setOutlineThickness(5);
+
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
         
@@ -1295,7 +1340,7 @@ int main() {
                     
                     //Half-State test condition
                     if(i == 19 || i == 29) {
-                        if(testHoverOverHalfState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverHalfState(stateSquares.at(i), coord_pos)) {
                         
                             //increment the number in position i of the color vector
                             colorVector.at(i) += 1;
@@ -1316,7 +1361,7 @@ int main() {
                         }
                     }
                     else if(i == 20 || i == 21) {
-                        if(testHoverOverQuarterState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverQuarterState(stateSquares.at(i), coord_pos)) {
                         
                             //increment the number in position i of the color vector
                             colorVector.at(i) += 1;
@@ -1337,7 +1382,7 @@ int main() {
                         }
                     }
                     else if(i == 30 || i == 31 || i == 32) {
-                        if(testHoverOverSixthState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverSixthState(stateSquares.at(i), coord_pos)) {
                         
                             //increment the number in position i of the color vector
                             colorVector.at(i) += 1;
@@ -1359,7 +1404,7 @@ int main() {
                     }
                     else {
                         //...if the mouse is over the square...
-                        if(testHoverOverState(stateSquares.at(i), mousePos)) {
+                        if(testHoverOverState(stateSquares.at(i), coord_pos)) {
                         
                             //increment the number in position i of the color vector
                             colorVector.at(i) += 1;
@@ -1401,6 +1446,9 @@ int main() {
         window.draw(republicanBar);
         window.draw(totalBarDivision);
         window.draw(stateLabel);
+        window.draw(controlBack);
+        window.draw(controlLabel);
+        window.draw(textScreenBack);
         window.display();
     }
     return 0;
