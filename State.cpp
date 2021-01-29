@@ -43,6 +43,20 @@ string State::getName() {
     return name;
 }
 
+//returns the display name of the state
+string State::getDisplayName() {
+    string stringToReturn = "";
+    for(int i = 0; i < this->getName().size(); i++) {
+        if(this->getName().at(i) == '_') {
+            stringToReturn += " ";
+        }
+        else {
+            stringToReturn += this->getName().at(i);
+        }
+    }
+    return stringToReturn;
+}
+
 //returns the number of electoral votes the state has
 int State::getElectorals() {
     return electorals;

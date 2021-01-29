@@ -585,6 +585,9 @@ void saveStates(vector<State> republican, vector<State> democrat, vector<State> 
     OFS.close();
 }
 
+
+
+
 //==============================FUNCTIONS FOR GUI==============================//
 //function that modifies a vector that contains all 56 states and regions as RectangleShapes
 void allStateSquares(vector<sf::RectangleShape> &stateSquares) {
@@ -1135,14 +1138,12 @@ void adjustRepublicanBar(sf::RectangleShape &republicanBar, vector<State> republ
     republicanBar.setPosition(sf::Vector2f(655 - length + 65, 26));
 }
 
+
+
+
+//==============================MAIN==============================//
 int main() {
     
-    //window dimensiona are proportional to the computer's resolution
-    /*
-    int windowWidth = sf::VideoMode::getDesktopMode().width / 1.25;
-    int windowHeight = sf::VideoMode::getDesktopMode().height / 1.25;
-    */
-
     //creates the render window object with the following settings
     sf::RenderWindow window(sf::VideoMode(1100, 750), "Election Outcomes Map", sf::Style::Default);
 
@@ -1222,7 +1223,7 @@ int main() {
     sf::FloatRect stateLabelRect;
     stateLabel.setString("");
     stateLabel.setFont(stateLabelFont);
-    stateLabel.setCharacterSize(30);
+    stateLabel.setCharacterSize(40);
     stateLabel.setFillColor(sf::Color::White);
     
     //calculates the bounds of the enclosing rectangle, origin, and position after the string
@@ -1233,9 +1234,9 @@ int main() {
     //creates the background for the control panel to the right of the map
     sf::RectangleShape controlBack;
     controlBack.setSize(sf::Vector2f(325, 700));
-    controlBack.setPosition(sf::Vector2f(750, 31));
+    controlBack.setPosition(sf::Vector2f(741, 31));
     controlBack.setFillColor(sf::Color(190, 190, 190));
-    controlBack.setOutlineColor(sf::Color::White);
+    controlBack.setOutlineColor(sf::Color(114, 132, 140));
     controlBack.setOutlineThickness(5.f);
 
     //creates the label for the control panel
@@ -1247,7 +1248,7 @@ int main() {
     sf::FloatRect controlLabelRect;
     controlLabelRect = controlLabel.getLocalBounds();
     controlLabel.setOrigin(controlLabelRect.left + controlLabelRect.width/2, controlLabelRect.top + controlLabelRect.height/2);
-    controlLabel.setPosition(sf::Vector2f(controlBack.getPosition().x + (controlBack.getSize().x/2), 50));
+    controlLabel.setPosition(sf::Vector2f(controlBack.getPosition().x + (controlBack.getSize().x/2), 57));
     
     //creates the background for the screen of text
     sf::RectangleShape textScreenBack;
@@ -1264,6 +1265,21 @@ int main() {
     showStatusButton.setOrigin(sf::Vector2f(50, 25));
     showStatusButton.setFillColor(sf::Color(114, 132, 140));
     showStatusButton.setPosition(controlBack.getPosition().x + controlBack.getSize().x/5, 115);
+    showStatusButton.setOutlineColor(sf::Color::Black);
+    showStatusButton.setOutlineThickness(1);
+
+    //creates the label for the "showStatus" button
+    sf::Text showStatusLabel;
+    showStatusLabel.setFont(stateLabelFont);
+    showStatusLabel.setString("Status");
+    showStatusLabel.setCharacterSize(20);
+    showStatusLabel.setFillColor(sf::Color::Black);
+    sf::FloatRect statusLabelRect;
+    statusLabelRect = showStatusLabel.getLocalBounds();
+    showStatusLabel.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
+    showStatusLabel.setPosition(sf::Vector2f(showStatusButton.getPosition().x, showStatusButton.getPosition().y));
+
+    cout << controlBack.getPosition().y << endl;
 
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
@@ -1366,7 +1382,7 @@ int main() {
                     if( (((i == 19 || i == 29) && (testHoverOverHalfState(stateSquares.at(i), coord_pos))) || ((i == 20 || i == 21) && (testHoverOverQuarterState(stateSquares.at(i), coord_pos))) || ((i == 30 || i == 31 || i == 32) && (testHoverOverSixthState(stateSquares.at(i), coord_pos))) || ((i != 19 && i != 20 && i != 21 && i != 29 && i != 30 && i != 31 && i != 32) && (testHoverOverState(stateSquares.at(i), coord_pos))))   ) {
 
                         //changes the state label to whatever state is being hovered over
-                        stateLabel.setString(Country.at(i).getName());
+                        stateLabel.setString(Country.at(i).getDisplayName());
                         stateLabelRect = stateLabel.getLocalBounds();
                         stateLabel.setOrigin(stateLabelRect.left + stateLabelRect.width/2, stateLabelRect.top + stateLabelRect.height/2);
                         break;
@@ -1504,6 +1520,7 @@ int main() {
         window.draw(controlLabel);
         window.draw(textScreenBack);
         window.draw(showStatusButton);
+        window.draw(showStatusLabel);
         window.display();
     }
     return 0;

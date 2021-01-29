@@ -21,6 +21,7 @@ class State {
    void setElectorals(int electorals);                         //sets the number of electoral votes for the state
    void setThisSubset(bool thisSubset);                        //sets if the state is being included in the subset
    string getName();                                           //returns the name of the state
+   string getDisplayName();                                    //returns the display name of the state
    int getElectorals();                                        //returns the number of electoral votes the state has
    bool getThisSubset();                                       //returns if the state is being included in the subset
 };
