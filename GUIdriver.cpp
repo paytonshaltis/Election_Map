@@ -995,6 +995,35 @@ bool testHoverOverSixthState(sf::RectangleShape state, sf::Vector2i mousePos) {
     return false;
 }
 
+//returns true if the user is hovering over a button of size button1
+bool testHoverOverButton1(sf::RectangleShape button1, sf::Vector2i mousePos) {
+    
+    //if both the x and y position of the mouse are withing the button's bounding box...
+    if(mousePos.x >= button1.getPosition().x - 50 && mousePos.x <= button1.getPosition().x + 50) {
+
+        if(mousePos.y >= button1.getPosition().y - 25 && mousePos.y <= button1.getPosition().y + 25) {
+
+            //returns true
+            return true;
+        }
+    }
+
+    //else, returns false
+    return false;
+}
+
+//function that enlargens a button1
+void enlargeButton1(sf::RectangleShape &button) {
+    button.setOrigin(sf::Vector2f(51.25, 26.25));
+    button.setSize(sf::Vector2f(102.5, 52.5));
+}
+
+//function that returns a button1 to its default size
+void defaultButton1(sf::RectangleShape &button) {
+    button.setOrigin(sf::Vector2f(50, 25));
+    button.setSize(sf::Vector2f(100, 50));
+}
+
 //function that englarges a state if the mouse is currently over it
 void enlargeState(sf::RectangleShape &state) {
     
@@ -1229,6 +1258,13 @@ int main() {
     textScreenBack.setOutlineColor(sf::Color::White);
     textScreenBack.setOutlineThickness(5);
 
+    //creates the button for "showStatus"
+    sf::RectangleShape showStatusButton;
+    showStatusButton.setSize(sf::Vector2f(100, 50));
+    showStatusButton.setOrigin(sf::Vector2f(50, 25));
+    showStatusButton.setFillColor(sf::Color(114, 132, 140));
+    showStatusButton.setPosition(controlBack.getPosition().x + controlBack.getSize().x/5, 115);
+
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
         
@@ -1255,6 +1291,18 @@ int main() {
             //if the mouse is moved...
             if(event.type == sf::Event::MouseMoved) {
                 
+                //determines if the mouse is over the showStatus button
+                if(testHoverOverButton1(showStatusButton, coord_pos)) {
+
+                    //if so, enlargen the button
+                    enlargeButton1(showStatusButton);
+                }
+                else {
+
+                    //otherwise, return the button to its default size
+                    defaultButton1(showStatusButton);
+                }
+
                 //for each of the states in the stateSquares vectors...
                 for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
                     
@@ -1312,8 +1360,9 @@ int main() {
                             //otherwise, reset it to its default size
                             defaultState(stateSquares.at(i));
                         }
-                   }
-                   //decides which state to display, or none at all
+                    }
+
+                    //decides which state to display, or none at all
                     if( (((i == 19 || i == 29) && (testHoverOverHalfState(stateSquares.at(i), coord_pos))) || ((i == 20 || i == 21) && (testHoverOverQuarterState(stateSquares.at(i), coord_pos))) || ((i == 30 || i == 31 || i == 32) && (testHoverOverSixthState(stateSquares.at(i), coord_pos))) || ((i != 19 && i != 20 && i != 21 && i != 29 && i != 30 && i != 31 && i != 32) && (testHoverOverState(stateSquares.at(i), coord_pos))))   ) {
 
                         //changes the state label to whatever state is being hovered over
@@ -1335,6 +1384,11 @@ int main() {
             //if the event indicates clicking with the mouse...
             if(event.type == sf::Event::MouseButtonPressed) {
                 
+                //check to see if a button has been pressed
+                if(testHoverOverButton1(showStatusButton, coord_pos)) {
+                    cout << "You clicked the Show Status button!" << endl;
+                }
+
                 //...for each of the states in the stateSquares vector...
                 for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
                     
@@ -1449,6 +1503,7 @@ int main() {
         window.draw(controlBack);
         window.draw(controlLabel);
         window.draw(textScreenBack);
+        window.draw(showStatusButton);
         window.display();
     }
     return 0;
