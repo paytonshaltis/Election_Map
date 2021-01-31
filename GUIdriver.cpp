@@ -11,6 +11,7 @@
 
 using namespace std;
 
+bool g_calculatedSubsets = false;
 
 //==============================FUNCTIONS USING STATE OBJECTS==============================//
 //accepts a string and returns the uppercase version of the word
@@ -539,6 +540,7 @@ void moveState(State state, vector<State> &source, vector<State> &destination) {
             destination.push_back(source.at(i));
             source.erase(source.begin() + i);
             cout << "Moved " << destination.back().getName() << endl;
+            g_calculatedSubsets = false;
             return;
         }
     }
@@ -1195,8 +1197,11 @@ int main() {
         colorVector.push_back(0);
     }
 
-    //boolean variable that identifies if the current distribution of states has statistics calculated for it
-    bool calculatedSubsets = false;
+    //vectors of vectors of states for finding the subsets of states
+    vector< vector<State> > republicanSubsets;
+    vector< vector<State> > democratSubsets;
+    int rsubs;
+    int dsubs;
 
     //decides if results are preloaded or not
     string userRequest;
@@ -1445,7 +1450,20 @@ int main() {
                 
                 //check to see if a button has been pressed
                 if(testHoverOverButton1(showStatusButton, coord_pos)) {
-                    cout << "You clicked the Show Status button!" << endl;
+                    
+                    //if the status dot is yellow...
+                    if(statusDot.getFillColor() == sf::Color::Yellow) {
+                        
+                        cout << "Calculating..." << endl;
+                        
+                        //calculate based on the current distribution of states
+                        rsubs = subsetsOfRemaining(republican, remaining, republicanSubsets);
+                        dsubs = subsetsOfRemaining(democrat, remaining, democratSubsets);
+                        
+                        cout << "Calculated!" << endl;
+                        
+                        g_calculatedSubsets = true;
+                    }
                 }
 
                 //...for each of the states in the stateSquares vector...
@@ -1550,7 +1568,7 @@ int main() {
         adjustRepublicanBar(republicanBar, republican);
 
         //updates the color of the status bar
-        if(calculatedSubsets)
+        if(g_calculatedSubsets)
             statusDot.setFillColor(sf::Color::Green);
         else if(remaining.size() > 20)
             statusDot.setFillColor(sf::Color(230, 10, 10));
