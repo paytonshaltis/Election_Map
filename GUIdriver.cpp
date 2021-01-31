@@ -1251,7 +1251,7 @@ int main() {
 
     //test text for labels for the states
     sf::Font stateLabelFont;
-    stateLabelFont.loadFromFile("26601088587.ttf");
+    stateLabelFont.loadFromFile("fonts/26601088587.ttf");
     sf::Text stateLabel;
     sf::FloatRect stateLabelRect;
     stateLabel.setString("");
