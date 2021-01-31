@@ -1039,8 +1039,8 @@ void enlargeButton1(sf::RectangleShape &button, sf::Text &label) {
     button.setOrigin(sf::Vector2f(51.25, 26.25));
     button.setSize(sf::Vector2f(102.5, 52.5));
     label.setCharacterSize(21);
-    sf::FloatRect statusLabelRect = label.getLocalBounds();
-    label.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
+    sf::FloatRect labelRect = label.getLocalBounds();
+    label.setOrigin(labelRect.left + labelRect.width/2, labelRect.top + labelRect.height/2);
     label.setPosition(sf::Vector2f(button.getPosition().x, button.getPosition().y));
 }
 
@@ -1049,8 +1049,8 @@ void defaultButton1(sf::RectangleShape &button, sf::Text &label) {
     button.setOrigin(sf::Vector2f(50, 25));
     button.setSize(sf::Vector2f(100, 50));
     label.setCharacterSize(20);
-    sf::FloatRect statusLabelRect = label.getLocalBounds();
-    label.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
+    sf::FloatRect labelRect = label.getLocalBounds();
+    label.setOrigin(labelRect.left + labelRect.width/2, labelRect.top + labelRect.height/2);
     label.setPosition(sf::Vector2f(button.getPosition().x, button.getPosition().y));
 }
 
@@ -1292,25 +1292,25 @@ int main() {
     textScreenBack.setOutlineColor(sf::Color::White);
     textScreenBack.setOutlineThickness(5);
 
-    //creates the button for "showStatus"
-    sf::RectangleShape showStatusButton;
-    showStatusButton.setSize(sf::Vector2f(100, 50));
-    showStatusButton.setOrigin(sf::Vector2f(50, 25));
-    showStatusButton.setFillColor(sf::Color(114, 132, 140));
-    showStatusButton.setPosition(controlBack.getPosition().x + controlBack.getSize().x/5, 115);
-    showStatusButton.setOutlineColor(sf::Color::Black);
-    showStatusButton.setOutlineThickness(2);
+    //creates the button for "process"
+    sf::RectangleShape processButton;
+    processButton.setSize(sf::Vector2f(100, 50));
+    processButton.setOrigin(sf::Vector2f(50, 25));
+    processButton.setFillColor(sf::Color(114, 132, 140));
+    processButton.setPosition(controlBack.getPosition().x + controlBack.getSize().x/5, 115);
+    processButton.setOutlineColor(sf::Color::Black);
+    processButton.setOutlineThickness(2);
 
-    //creates the label for the "showStatus" button
-    sf::Text showStatusLabel;
-    showStatusLabel.setFont(stateLabelFont);
-    showStatusLabel.setString("Status");
-    showStatusLabel.setCharacterSize(20);
-    showStatusLabel.setFillColor(sf::Color::Black);
-    sf::FloatRect statusLabelRect;
-    statusLabelRect = showStatusLabel.getLocalBounds();
-    showStatusLabel.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
-    showStatusLabel.setPosition(sf::Vector2f(showStatusButton.getPosition().x, showStatusButton.getPosition().y));
+    //creates the label for the "process" button
+    sf::Text processLabel;
+    processLabel.setFont(stateLabelFont);
+    processLabel.setString("Process");
+    processLabel.setCharacterSize(20);
+    processLabel.setFillColor(sf::Color::Black);
+    sf::FloatRect processLabelRect;
+    processLabelRect = processLabel.getLocalBounds();
+    processLabel.setOrigin(processLabelRect.left + processLabelRect.width/2, processLabelRect.top + processLabelRect.height/2);
+    processLabel.setPosition(sf::Vector2f(processButton.getPosition().x, processButton.getPosition().y));
 
     //creates the small dot at the top right of the screen, notifies state of calculations
     sf::CircleShape statusDot;
@@ -1355,16 +1355,16 @@ int main() {
 
                 }
 
-                //determines if the mouse is over the showStatus button
-                if(testHoverOverButton1(showStatusButton, coord_pos)) {
+                //determines if the mouse is over the process button
+                if(testHoverOverButton1(processButton, coord_pos)) {
 
                     //if so, enlargen the button
-                    enlargeButton1(showStatusButton, showStatusLabel);
+                    enlargeButton1(processButton, processLabel);
                 }
                 else {
 
                     //otherwise, return the button to its default size
-                    defaultButton1(showStatusButton, showStatusLabel);
+                    defaultButton1(processButton, processLabel);
                 }
 
                 //for each of the states in the stateSquares vectors...
@@ -1449,7 +1449,7 @@ int main() {
             if(event.type == sf::Event::MouseButtonPressed) {
                 
                 //check to see if a button has been pressed
-                if(testHoverOverButton1(showStatusButton, coord_pos)) {
+                if(testHoverOverButton1(processButton, coord_pos)) {
                     
                     //if the status dot is yellow...
                     if(statusDot.getFillColor() == sf::Color::Yellow) {
@@ -1567,7 +1567,7 @@ int main() {
         adjustDemocratBar(democratBar, democrat);
         adjustRepublicanBar(republicanBar, republican);
 
-        //updates the color of the status bar
+        //updates the color of the status dot
         if(g_calculatedSubsets)
             statusDot.setFillColor(sf::Color::Green);
         else if(remaining.size() > 20)
@@ -1589,8 +1589,8 @@ int main() {
         window.draw(controlBack);
         window.draw(controlLabel);
         window.draw(textScreenBack);
-        window.draw(showStatusButton);
-        window.draw(showStatusLabel);
+        window.draw(processButton);
+        window.draw(processLabel);
         window.draw(statusDot);
         window.display();
     }
