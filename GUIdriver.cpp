@@ -1015,16 +1015,41 @@ bool testHoverOverButton1(sf::RectangleShape button1, sf::Vector2i mousePos) {
     return false;
 }
 
+//returns true if the user is hovering over the status dot
+bool testHoverOverStatusDot(sf::CircleShape dot, sf::Vector2i mousePos) {
+
+    //if both the x and y position of the mouse are withing the dot's bounding box...
+    if(mousePos.x >= dot.getPosition().x - 5 && mousePos.x <= dot.getPosition().x + 5) {
+
+        if(mousePos.y >= dot.getPosition().y - 5 && mousePos.y <= dot.getPosition().y + 5) {
+
+            //returns true
+            return true;
+        }
+    }
+
+    //else, returns false
+    return false;
+}
+
 //function that enlargens a button1
-void enlargeButton1(sf::RectangleShape &button) {
+void enlargeButton1(sf::RectangleShape &button, sf::Text &label) {
     button.setOrigin(sf::Vector2f(51.25, 26.25));
     button.setSize(sf::Vector2f(102.5, 52.5));
+    label.setCharacterSize(21);
+    sf::FloatRect statusLabelRect = label.getLocalBounds();
+    label.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
+    label.setPosition(sf::Vector2f(button.getPosition().x, button.getPosition().y));
 }
 
 //function that returns a button1 to its default size
-void defaultButton1(sf::RectangleShape &button) {
+void defaultButton1(sf::RectangleShape &button, sf::Text &label) {
     button.setOrigin(sf::Vector2f(50, 25));
     button.setSize(sf::Vector2f(100, 50));
+    label.setCharacterSize(20);
+    sf::FloatRect statusLabelRect = label.getLocalBounds();
+    label.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
+    label.setPosition(sf::Vector2f(button.getPosition().x, button.getPosition().y));
 }
 
 //function that englarges a state if the mouse is currently over it
@@ -1170,6 +1195,9 @@ int main() {
         colorVector.push_back(0);
     }
 
+    //boolean variable that identifies if the current distribution of states has statistics calculated for it
+    bool calculatedSubsets = false;
+
     //decides if results are preloaded or not
     string userRequest;
     while(toUpper(userRequest) != "PRELOAD" && toUpper(userRequest) != "EMPTY") {
@@ -1266,7 +1294,7 @@ int main() {
     showStatusButton.setFillColor(sf::Color(114, 132, 140));
     showStatusButton.setPosition(controlBack.getPosition().x + controlBack.getSize().x/5, 115);
     showStatusButton.setOutlineColor(sf::Color::Black);
-    showStatusButton.setOutlineThickness(1);
+    showStatusButton.setOutlineThickness(2);
 
     //creates the label for the "showStatus" button
     sf::Text showStatusLabel;
@@ -1279,7 +1307,13 @@ int main() {
     showStatusLabel.setOrigin(statusLabelRect.left + statusLabelRect.width/2, statusLabelRect.top + statusLabelRect.height/2);
     showStatusLabel.setPosition(sf::Vector2f(showStatusButton.getPosition().x, showStatusButton.getPosition().y));
 
-    cout << controlBack.getPosition().y << endl;
+    //creates the small dot at the top right of the screen, notifies state of calculations
+    sf::CircleShape statusDot;
+    statusDot.setFillColor(sf::Color(230, 10, 10));
+    statusDot.setRadius(6);
+    sf::FloatRect dotRect = statusDot.getLocalBounds();
+    statusDot.setOrigin(sf::Vector2f(dotRect.left + dotRect.width/2, dotRect.top + dotRect.height/2));
+    statusDot.setPosition(sf::Vector2f(1085, 15));
 
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
@@ -1293,7 +1327,6 @@ int main() {
 
         //creates an event object called event
         sf::Event event;
-
         //==============================POLLING LOOP==================================//
         while(window.pollEvent(event)) {
             
@@ -1307,16 +1340,26 @@ int main() {
             //if the mouse is moved...
             if(event.type == sf::Event::MouseMoved) {
                 
+                //determines if the mouse is hovered over the status dot
+                if(testHoverOverStatusDot(statusDot, coord_pos)) {
+
+                    cout << "This is the status dot." << endl;
+
+                }
+                else {
+
+                }
+
                 //determines if the mouse is over the showStatus button
                 if(testHoverOverButton1(showStatusButton, coord_pos)) {
 
                     //if so, enlargen the button
-                    enlargeButton1(showStatusButton);
+                    enlargeButton1(showStatusButton, showStatusLabel);
                 }
                 else {
 
                     //otherwise, return the button to its default size
-                    defaultButton1(showStatusButton);
+                    defaultButton1(showStatusButton, showStatusLabel);
                 }
 
                 //for each of the states in the stateSquares vectors...
@@ -1506,6 +1549,15 @@ int main() {
         adjustDemocratBar(democratBar, democrat);
         adjustRepublicanBar(republicanBar, republican);
 
+        //updates the color of the status bar
+        if(calculatedSubsets)
+            statusDot.setFillColor(sf::Color::Green);
+        else if(remaining.size() > 20)
+            statusDot.setFillColor(sf::Color(230, 10, 10));
+        else if(remaining.size() <= 20)
+            statusDot.setFillColor(sf::Color::Yellow);
+        
+
         //clears the window and draws all of the states / other assets
         window.clear();
         for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
@@ -1521,6 +1573,7 @@ int main() {
         window.draw(textScreenBack);
         window.draw(showStatusButton);
         window.draw(showStatusLabel);
+        window.draw(statusDot);
         window.display();
     }
     return 0;
