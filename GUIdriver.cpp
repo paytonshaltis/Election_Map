@@ -1314,11 +1314,19 @@ int main() {
 
     //creates the small dot at the top right of the screen, notifies state of calculations
     sf::CircleShape statusDot;
-    statusDot.setFillColor(sf::Color(230, 10, 10));
+    statusDot.setFillColor(sf::Color::Red);
     statusDot.setRadius(6);
     sf::FloatRect dotRect = statusDot.getLocalBounds();
     statusDot.setOrigin(sf::Vector2f(dotRect.left + dotRect.width/2, dotRect.top + dotRect.height/2));
     statusDot.setPosition(sf::Vector2f(1085, 15));
+
+    //creates the text for line 1 of the text screen
+    sf::Text text1;
+    text1.setFont(stateLabelFont);
+    text1.setCharacterSize(20);
+    text1.setFillColor(sf::Color(51, 255, 0));
+    text1.setPosition(sf::Vector2f(81, 623));
+    text1.setString("");
 
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
@@ -1455,16 +1463,28 @@ int main() {
                     if(statusDot.getFillColor() == sf::Color::Yellow) {
                         
                         cout << "Calculating..." << endl;
-                        
+                        text1.setString("Calculating...");
+
                         //calculate based on the current distribution of states
                         rsubs = subsetsOfRemaining(republican, remaining, republicanSubsets);
                         dsubs = subsetsOfRemaining(democrat, remaining, democratSubsets);
                         
                         cout << "Calculated!" << endl;
-                        
+                        text1.setString("Calculated!");
+
                         g_calculatedSubsets = true;
                     }
-                }
+                    else if(statusDot.getFillColor() == sf::Color::Green) {
+
+                        cout << "Already calculated for this distribution!" << endl;
+                        text1.setString("Already calculated for this distribution!");
+                    }
+                    else if(statusDot.getFillColor() == sf::Color::Red) {
+
+                        cout << "Too many subsets to test. Assign more states!" << endl;
+                        text1.setString("Too many subsets to test. Assign more states!");
+                    }
+                }   
 
                 //...for each of the states in the stateSquares vector...
                 for(int i = 0; !stateSquares.empty() && i < stateSquares.size(); i++) {
@@ -1571,7 +1591,7 @@ int main() {
         if(g_calculatedSubsets)
             statusDot.setFillColor(sf::Color::Green);
         else if(remaining.size() > 20)
-            statusDot.setFillColor(sf::Color(230, 10, 10));
+            statusDot.setFillColor(sf::Color::Red);
         else if(remaining.size() <= 20)
             statusDot.setFillColor(sf::Color::Yellow);
         
@@ -1592,6 +1612,7 @@ int main() {
         window.draw(processButton);
         window.draw(processLabel);
         window.draw(statusDot);
+        window.draw(text1);
         window.display();
     }
     return 0;
