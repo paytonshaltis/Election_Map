@@ -13,6 +13,12 @@ using namespace std;
 
 bool g_calculatedSubsets = false;
 
+sf::Text g_text1;
+sf::Text g_text2;
+sf::Text g_text3;
+sf::Text g_text4;
+
+
 //==============================FUNCTIONS USING STATE OBJECTS==============================//
 //accepts a string and returns the uppercase version of the word
 string toUpper(string word) {
@@ -1165,6 +1171,25 @@ void adjustRepublicanBar(sf::RectangleShape &republicanBar, vector<State> republ
     republicanBar.setPosition(sf::Vector2f(655 - length + 65, 26));
 }
 
+//add text to the 'terminal' and update it; this function deals with the scrolling of the text window
+void addText(string text) {
+
+    int lineToWriteTo;
+
+    //tries to find the first empty line, if it exists
+    if(g_text1.getString() == "") {
+        lineToWriteTo = 1;
+    }
+    else if(g_text2.getString() == "") {
+        lineToWriteTo = 2;
+    }
+    else if(g_text3.getString() == "") {
+        lineToWriteTo = 3;
+    }
+    else if(g_text4.getString() == "") {
+        lineToWriteTo = 4;
+    }
+}
 
 
 
@@ -1320,13 +1345,37 @@ int main() {
     statusDot.setOrigin(sf::Vector2f(dotRect.left + dotRect.width/2, dotRect.top + dotRect.height/2));
     statusDot.setPosition(sf::Vector2f(1085, 15));
 
-    //creates the text for line 1 of the text screen
-    sf::Text text1;
-    text1.setFont(stateLabelFont);
-    text1.setCharacterSize(20);
-    text1.setFillColor(sf::Color(51, 255, 0));
-    text1.setPosition(sf::Vector2f(81, 623));
-    text1.setString("");
+    //NOTE: the text on any line can be only 52 characters wide!
+    //sets the settings for line 1 of the text
+    sf::Font courier;
+    courier.loadFromFile("fonts/CourierRegular.ttf");
+    
+    g_text1.setFont(courier);
+    g_text1.setCharacterSize(20);
+    g_text1.setFillColor(sf::Color(51, 255, 0));
+    g_text1.setPosition(sf::Vector2f(81, 614));
+    g_text1.setString("");
+
+    //sets the settings for line 2 of the text
+    g_text2.setFont(courier);
+    g_text2.setCharacterSize(20);
+    g_text2.setFillColor(sf::Color(51, 255, 0));
+    g_text2.setPosition(sf::Vector2f(81, 644));
+    g_text2.setString("asdfasdfasdf");
+
+    //sets the settings for line 3 of the text
+    g_text3.setFont(courier);
+    g_text3.setCharacterSize(20);
+    g_text3.setFillColor(sf::Color(51, 255, 0));
+    g_text3.setPosition(sf::Vector2f(81, 674));
+    g_text3.setString("adsfasdfasdf");
+
+    //sets the settings for line 4 of the text
+    g_text4.setFont(courier);
+    g_text4.setCharacterSize(20);
+    g_text4.setFillColor(sf::Color(51, 255, 0));
+    g_text4.setPosition(sf::Vector2f(81, 704));
+    g_text4.setString("asdfasdfasdf");
 
     //game loop that continues for as long as the window is open
     while(window.isOpen()) {
@@ -1463,26 +1512,26 @@ int main() {
                     if(statusDot.getFillColor() == sf::Color::Yellow) {
                         
                         cout << "Calculating..." << endl;
-                        text1.setString("Calculating...");
+                        g_text1.setString("Calculating...");
 
                         //calculate based on the current distribution of states
                         rsubs = subsetsOfRemaining(republican, remaining, republicanSubsets);
                         dsubs = subsetsOfRemaining(democrat, remaining, democratSubsets);
                         
                         cout << "Calculated!" << endl;
-                        text1.setString("Calculated!");
+                        g_text1.setString("Calculated!");
 
                         g_calculatedSubsets = true;
                     }
                     else if(statusDot.getFillColor() == sf::Color::Green) {
 
                         cout << "Already calculated for this distribution!" << endl;
-                        text1.setString("Already calculated for this distribution!");
+                        g_text1.setString("Already calculated for this distribution!");
                     }
                     else if(statusDot.getFillColor() == sf::Color::Red) {
 
                         cout << "Too many subsets to test. Assign more states!" << endl;
-                        text1.setString("Too many subsets to test. Assign more states!");
+                        g_text1.setString("Too many subsets to test. Assign more states!");
                     }
                 }   
 
@@ -1612,7 +1661,10 @@ int main() {
         window.draw(processButton);
         window.draw(processLabel);
         window.draw(statusDot);
-        window.draw(text1);
+        window.draw(g_text1);
+        window.draw(g_text2);
+        window.draw(g_text3);
+        window.draw(g_text4);
         window.display();
     }
     return 0;
